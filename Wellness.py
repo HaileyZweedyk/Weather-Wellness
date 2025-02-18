@@ -80,8 +80,12 @@ def mood_weather(weather_condition):
     elif weather_condition == "thunderstorms":
         print("It's storming out. Don't be shocked if you are feeling down or shaken at times today.")
     elif weather_condition == "snowy":
-        print("It's snowing outside. Look out for the chill in the air and a low-spritied mood today.")
+        print("It's snowing outside. Look out for the chill in the air and a low spritied mood today.")
     else:
        print("Weather condition not recognized. Please enter a valid condition (sunny, cloudy,snowy, rain, or thunderstorm).")
 
-       
+def mood_forecast():
+    pass
+    # Generate forecast from Weather.py
+    # print(f"{day}: mood_weather(weather_condition)", end="")
+    
