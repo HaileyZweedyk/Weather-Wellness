@@ -70,3 +70,18 @@ def driving_techniques(weather_condition):
        print("Weather condition not recognized. Please enter a valid condition (snow, ice, wind, rain, or thunderstorm).")
 
 
+def mood_weather(weather_condition):
+    if weather_condition == "sunny":
+        print("The sun is shining out! Carry this positivity and enthusimum from the beautiful sunshine into whatever you may do today to keep the good vibes going.")
+    elif weather_condition == "cloudy":
+        print("There is no sun today. You may be feeling a little down and unmotivated with out the sunshine.")
+    elif weather_condition == "rainy":
+        print("Oh no, not the rain! Watch out for the rainy day blues, this weather may have you feeling sad.")
+    elif weather_condition == "thunderstorms":
+        print("It's storming out. Don't be shocked if you are feeling down or shaken at times today.")
+    elif weather_condition == "snowy":
+        print("It's snowing outside. Look out for the chill in the air and a low-spritied mood today.")
+    else:
+       print("Weather condition not recognized. Please enter a valid condition (sunny, cloudy,snowy, rain, or thunderstorm).")
+
+       
