@@ -24,6 +24,12 @@ class WeatherCodeTranslations:
                 conditionText = "Haze"
             case "10":
                 conditionText = "Mist"
+            case "11":
+                conditionText = "Fog"
+            case "12":
+                conditionText = "Fog"
+            case "13":
+                conditionText = "Lightning"
             case "19":
                 conditionText = "Funnel Cloud Formation: Take Shelter"
             case "20":
@@ -107,4 +113,25 @@ class WeatherCodeTranslations:
     def GetCategory():
 
         # Will return simplified categories for Wellness
-        return 0
+
+        conditionCat = ""
+        curr = CurrWeatherCode
+
+        if curr == 3 or curr == 1:
+            conditionCat = "Cloudy"
+        elif curr == 0:
+            conditionCat = "Clear"
+        elif 20 <= curr <= 21 or curr == 25 or 60 <= curr <= 65 or 80 <= curr <= 82 or 91 <= curr <= 92 or 14 <= curr <= 16:
+            conditionCat = "Rain"
+        elif curr == 5:
+            conditionCat = "Haze"
+        elif 11 <= curr <= 12 or curr == 28 or 40 <= curr <= 49:
+            conditionCat = "Fog"
+        elif curr == 13 or curr == 17 or curr == 19 or curr == 29 or 95 <= curr <= 99:
+            conditionCat = "Thunderstorm"
+        elif curr == 20 or 22 <= curr <= 23 or curr == 26 or 70 <= curr <= 79 or 85 <= curr <= 88 or 93 <= curr <= 94:
+            conditionCat = "Snow"
+        else:
+            conditionCat = "Not in Current Database"
+
+        return conditionCat
