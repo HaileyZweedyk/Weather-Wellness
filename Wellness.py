@@ -1,4 +1,6 @@
-class Wellness:
+
+class Clothing:
+
 
     def suggest_clothing(temp):
         if temp < 0:
@@ -16,7 +18,7 @@ class Wellness:
         else:
             print("It's very hot outside! Wear lightweight flowy clothing, a hat and sandals or tennis shoes.")
 
-
+class Activities:
     def suggest_activities(weather_condition):
         if weather_condition == "sunny":
             print("Hooray it's sunny outside! Walking, hiking, biking, going to the beach, or having a picnic in the park are great to do on sunny days like this one.")
@@ -35,7 +37,7 @@ class Wellness:
         else:
             print("Weather condition not recognized. Check the forecast for more information.")
 
-
+class Driving:
     def driving_techniques(weather_condition):
         if weather_condition == "snow":
             print("Tips for driving in the snow: ")
@@ -73,6 +75,7 @@ class Wellness:
         else:
             print("Weather condition not recognized. Please enter a valid condition (snow, ice, wind, rain, or thunderstorm).")
 
+class Mood_Weather:
 
     def mood_weather(weather_condition):
         if weather_condition == "sunny":
@@ -88,8 +91,10 @@ class Wellness:
         else:
             print("Weather condition not recognized. Please enter a valid condition (sunny, cloudy, snowy, rain, or thunderstorm).")
 
+class Mood_Forcast:
+
     def mood_forecast():
         pass
         # Generate forecast from Weather.py
         # print(f"{day}: mood_weather(weather_condition)", end="")
-        
+    
