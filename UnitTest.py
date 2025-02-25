@@ -21,6 +21,27 @@ class TestWeather(unittest.TestCase):
 class TestWellness(unittest.TestCase):
     def test_suggest_clothing(self, temp):
         pass
+    def test_below_zero(self, temp):
+        pass
+    def test_at_zero(self, temp):
+        pass
+    def test_above_zero_less_nine(self, temp);
+        pass
+    def test_at_nine(self, temp):
+        pass
+    def test_at_9(self,temp);
+        pass
+    def test_between_ten_and32(self, temp):
+        pass
+    def exactly_at_33(self, temp):
+        pass
+    def temp_between_70_84(self, temp):
+        pass
+    def test_greater_84(self,temp):
+        pass
+    def test_negative_test(self,temp):
+        pass
+
     def test_suggest_activities(self,weather_conditions):
         pass
     def test_driving_techniques(self,weather_conditions):
