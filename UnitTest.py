@@ -236,3 +236,4 @@ class TestWellness(unittest.TestCase):
 
     def test_mood_forecast(self):
         pass
+    
