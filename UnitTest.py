@@ -93,7 +93,68 @@ class TestWellness(unittest.TestCase):
         def test_suggest_activities_not_valid(self):
                 self.assertEqual(Wellness.suggest_activities("partly cloudy"),"Weather condition not recognized. Check the forecast for more information.")
 
-        def test_driving_techniques(self):
-            pass
+        def test_driving_techniques_snow(self):
+            out = (
+            "Tips for driving in the snow:"
+            "- Slow down and reduce your speed."
+            "- Increase your following distance."
+            "- Drive in the tire tracks of other vehicles if possible."
+            "- Avoid sudden steering or braking to prevent loss of control."
+            "- Keep headlights on for better visibility."
+        )
+            self.assertEqual(Wellness.driving_techniques("snow"), out)
+
+        def test_driving_techniques_ice(self):
+            out = (
+            "Tips for driving in icy conditions: "
+            "- Drive at a much slower speed."
+            "- Avoid using cruise control."
+            "- Brake gently and avoid sudden movements that could cause skidding."
+            "- Increase following distance significantly."
+            "- Stay in your lane and avoid abrupt steering."
+            )
+
+            self.assertEqual(Wellness.driving_techniques("ice"), out)
+
+        def test_driving_techniques_wind(self):
+            out = (
+            "Tips for driving in windy conditions: "
+            "- Grip the steering wheel firmly and use both hands."
+            "- Be aware of large gusts of wind that could move the car."
+            "- Stay cautious around large vehicles like trucks and buses."
+            "- Keep a larger distance from other vehicles to avoid being pushed by wind."
+            )
+
+            self.assertEqual(Wellness.driving_techniques("wind"), out)
+
+        def test_driving_techniques_rain(self):
+            out = (
+            "Tips for driving in the rain: "
+            "- Slow down and reduce speed to avoid slipping."
+            "- Increase your following distance to give yourself more stopping time."
+            "- Use your headlights and windshield wipers for better visibility."
+            "- Avoid driving through large puddles or flooded areas."
+            "- Turn off cruise control to maintain full control of your vehicle."
+            )
+
+            self.assertEqual(Wellness.driving_techniques("rain"), out)
+
+        def test_driving_techniques_thunderstorms(self):
+            out = (
+            "Tips for driving in a thunderstorm: "
+            "- Use your headlights and windshield wipers to maximize visibility."
+            "- Avoid driving through flooded areas to prevent hydroplaning."
+            "- Be aware of sudden gusts of wind and potential debris on the road."
+            "-If conditions are severe pull over in a covered area to let the storm pass."
+            )
+
+            self.assertEqual(Wellness.driving_techniques("thunderstorms"), out)
+
+        def test_driving_techniques_not_vaild_partly_cloudy(self):
+              self.assertEquals(Wellness.driving_techniques("partly cloudy"), "Weather condition not recognized. Please enter a valid condition (snow, ice, wind, rain, or thunderstorm).")
+
+        def test_driving_techniques_not_vaild_sunny(self):
+              self.assertEquals(Wellness.driving_techniques("sunny"), "Weather condition not recognized. Please enter a valid condition (snow, ice, wind, rain, or thunderstorm).") 
+                              
         def test_mood_weather(self):
             pass #comment for test 
