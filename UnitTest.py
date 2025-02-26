@@ -13,15 +13,15 @@ class TestWeatherCodeTranslations(unittest.TestCase):
         self.assertEqual(WeatherCodeTranslations.GetConditions(85), "Light Snow")
         self.assertEqual(WeatherCodeTranslations.GetConditions(97), "Thunderstorm")
     def test_get_category(self):
-        self.assertEqual(WeatherCodeTranslations.getCategory(3), "Cloudy")
-        self.assertEqual(WeatherCodeTranslations.getCategory(0), "Clear") 
-        self.assertEqual(WeatherCodeTranslations.getCategory(81), "Rain")    
-        self.assertEqual(WeatherCodeTranslations.getCategory(5), "Haze")  
-        self.assertEqual(WeatherCodeTranslations.getCategory(43), "Fog")
-        self.assertEqual(WeatherCodeTranslations.getCategory(3), "Cloudy")
-        self.assertEqual(WeatherCodeTranslations.getCategory(29), "Thunderstorm")
-        self.assertEqual(WeatherCodeTranslations.getCategory(26), "Snow")
-        self.assertEqual(WeatherCodeTranslations.getCategory(100), "Not in Current Database")
+        self.assertEqual(WeatherCodeTranslations.GetCategory(3), "Cloudy")
+        self.assertEqual(WeatherCodeTranslations.GetCategory(0), "Clear") 
+        self.assertEqual(WeatherCodeTranslations.GetCategory(81), "Rain")    
+        self.assertEqual(WeatherCodeTranslations.GetCategory(5), "Haze")  
+        self.assertEqual(WeatherCodeTranslations.GetCategory(43), "Fog")
+        self.assertEqual(WeatherCodeTranslations.GetCategory(3), "Cloudy")
+        self.assertEqual(WeatherCodeTranslations.GetCategory(29), "Thunderstorm")
+        self.assertEqual(WeatherCodeTranslations.GetCategory(26), "Snow")
+        self.assertEqual(WeatherCodeTranslations.GetCategory(100), "Not in Current Database")
 
 class TestWellness(unittest.TestCase):
         def test_suggest_clothing_negative(self):
