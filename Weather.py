@@ -77,7 +77,7 @@ class Weather:
 
 
     # View Hourly Forecast
-    def ForecastHourly(lat, long):
+    def ForecastHourly(self, lat, long):
         
         # Make sure all required weather variables are listed here
         # The order of variables in hourly or daily is important to assign them correctly below
@@ -135,7 +135,7 @@ class Weather:
 
 
     # View Current Weather
-    def ViewCurrWeather(lat, long):
+    def ViewCurrWeather(self, lat, long):
         # Make sure all required weather variables are listed here
         # The order of variables in hourly or daily is important to assign them correctly below
         url = "https://api.open-meteo.com/v1/forecast"
@@ -187,10 +187,11 @@ class Weather:
 
 
     # Set Current Location
+    @staticmethod
     def SetCurrLoc():
 
         # Use geopy to get lat and long
-        loc = {}
+
         lat = 0.0
         long = 0.0
 
@@ -204,8 +205,7 @@ class Weather:
                 loc = geocoder.ip('me')
 
                 if loc.ok:
-                    lat = {loc.latlng[0]}
-                    long = {loc.latlng[1]}
+                    lat, long = loc.latlng
                     isValid = True
                 else:
                     print("Could not retrieve current location")
@@ -215,8 +215,7 @@ class Weather:
                 loc = geocoder.osm(city)
 
                 if loc.ok:
-                    lat = {loc.latlng[0]}
-                    long = {loc.latlng[1]}
+                    lat, long = loc.latlng
                     isValid = True
                 else:
                     print("City could not be found. Try Again or choose your location.")
@@ -232,6 +231,7 @@ if __name__=="__main__":
 
     lat, long = weather.SetCurrLoc()
     print(weather.ViewCurrWeather(lat, long))
+    print(weather.ForecastHourly(lat, long))
 
 
 

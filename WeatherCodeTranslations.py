@@ -1,8 +1,10 @@
 from Weather import Weather
 
-lat, long = Weather.SetCurrLoc()
-weatherDataCurr = Weather.ViewCurrWeather(lat, long)
+weather = Weather() 
+lat, long = weather.SetCurrLoc() 
+weatherDataCurr = weather.ViewCurrWeather(lat, long) 
 CurrWeatherCode = weatherDataCurr["CurrWeatherCode"]
+
 
 class WeatherCodeTranslations:
 
