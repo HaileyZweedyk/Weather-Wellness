@@ -1,5 +1,7 @@
 from Weather import Weather
 
+# Test change
+
 lat, long = Weather.SetCurrLoc()
 weatherDataCurr = Weather.ViewCurrWeather(lat, long)
 CurrWeatherCode = weatherDataCurr["CurrWeatherCode"]
