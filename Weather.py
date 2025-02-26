@@ -12,7 +12,7 @@ from retry_requests import retry
 import geocoder
 
 # Translates Weather Codes
-from WeatherCodeTranslations import WeatherCodeTranslations
+#from WeatherCodeTranslations import WeatherCodeTranslations
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)

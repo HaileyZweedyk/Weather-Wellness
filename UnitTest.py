@@ -5,9 +5,23 @@ import Wellness from Wellness
 
 class TestWeatherCodeTranslations(unittest.TestCase):
     def test_get_conditions(self):
-            pass
+        self.assertEqual(WeatherCodeTranslations.GetConditions(0), "Clear")
+        self.assertEqual(WeatherCodeTranslations.GetConditions(6), "Not in Current Database")
+        self.assertEqual(WeatherCodeTranslations.GetConditions(11), "Fog")
+        self.assertEqual(WeatherCodeTranslations.GetConditions(22), "Snow")
+        self.assertEqual(WeatherCodeTranslations.GetConditions(81), "Rain")
+        self.assertEqual(WeatherCodeTranslations.GetConditions(85), "Light Snow")
+        self.assertEqual(WeatherCodeTranslations.GetConditions(97), "Thunderstorm")
     def test_get_category(self):
-            pass
+        self.assertEqual(WeatherCodeTranslations.getCategory(3), "Cloudy")
+        self.assertEqual(WeatherCodeTranslations.getCategory(0), "Clear") 
+        self.assertEqual(WeatherCodeTranslations.getCategory(81), "Rain")    
+        self.assertEqual(WeatherCodeTranslations.getCategory(5), "Haze")  
+        self.assertEqual(WeatherCodeTranslations.getCategory(43), "Fog")
+        self.assertEqual(WeatherCodeTranslations.getCategory(3), "Cloudy")
+        self.assertEqual(WeatherCodeTranslations.getCategory(29), "Thunderstorm")
+        self.assertEqual(WeatherCodeTranslations.getCategory(26), "Snow")
+        self.assertEqual(WeatherCodeTranslations.getCategory(100), "Not in Current Database")
 
 class TestWeather(unittest.TestCase):
     def test_forcast_daily(self):
