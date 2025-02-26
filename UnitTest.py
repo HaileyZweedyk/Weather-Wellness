@@ -4,43 +4,48 @@ import Weather from Weather
 import Wellness from Wellness
 
 class TestWeatherCodeTranslations(unittest.TestCase):
-    def test_get_conditions(self):
-            pass
-    def test_get_category(self):
-            pass
+        def test_get_conditions(self):
+                pass
+        def test_get_category(self):
+                pass
 
 class TestWeather(unittest.TestCase):
-    def test_forcast_daily(self):
-            pass
-    def test_forecast_hourly(self):
-            pass
-    def test_view_current_weather(self):
-            pass
-    def test_set_current_location(self):
-            pass
+        def test_forcast_daily(self):
+                pass
+        def test_forecast_hourly(self):
+                pass
+        def test_view_current_weather(self):
+                pass
+        def test_set_current_location(self):
+                pass
 
 class TestWellness(unittest.TestCase):
-    def test_suggest_clothing(self, temp):
+        def test_below_zero(self, temp):
+                if temp < 0:
+                        self.assertEqual(Wellness.suggest_clothing(temp),"Temperature is in the negatives today. Avoid going outside, but if necessary, dress in heavy layers and make sure your ears, nose, and hands are covered at all times.")            
+        def test_at_zero(self, temp):
+                if temp == 0:
+                        self.assertEquals(Wellness.suggest_clothing(temp),"The temperature is in the single digits. When outside keep your ears, nose, and hands covered. Wear heavy winter clothing, including a thick coat, gloves, hat, scarf, and boots.")
+        def test_above_zero_less_nine(self, temp):
+                if 0 < temp < 9:
+                        self.assertEquals(Wellness.suggest_clothing(temp),"The temperature is in the single digits. When outside keep your ears, nose, and hands covered. Wear heavy winter clothing, including a thick coat, gloves, hat, scarf, and boots.")
+        def test_at_nine(self, temp):
+                if temp == 9:
+                        self.assertEquals(Wellness.suggest_clothing(temp),"The temperature is in the single digits. When outside keep your ears, nose, and hands covered. Wear heavy winter clothing, including a thick coat, gloves, hat, scarf, and boots.")
+        def test_between_ten_and32(self, temp):
+                if temp == 10:
+                        self.assertEquals(Wellness.suggest_clothing(temp),"It's cold but not in the single digits yet. Wear a winter coat, gloves, and a hat.")
+        def test_between_ten_and32(self, temp):
+                if 10 < temp < 32:
+                        self.assertEquals(Wellness.suggest_clothing(temp),"It's cold but not in the single digits yet. Wear a winter coat, gloves, and a hat.")
+        def exactly_at_33(self, temp):
+                if temp == 33:
+                        pass
+        def temp_between_70_84(self, temp):
             pass
-    def test_below_zero(self, temp):
+        def test_greater_84(self,temp):
             pass
-    def test_at_zero(self, temp):
-            pass
-    def test_above_zero_less_nine(self, temp);
-            pass
-    def test_at_nine(self, temp):
-            pass
-    def test_at_9(self,temp);
-            pass
-    def test_between_ten_and32(self, temp):
-            pass
-    def exactly_at_33(self, temp):
-            pass
-    def temp_between_70_84(self, temp):
-            pass
-    def test_greater_84(self,temp):
-            pass
-    def test_negative_test(self,temp):
+        def test_negative_test(self,temp):
             pass
 
     def test_suggest_activities(self,weather_conditions):
