@@ -85,7 +85,7 @@ class Mood_Weather:
         moods = {
             "Sunny": "Take advantage of the sunshine and soak up some vitamin D (wear sunscreen).",
             "Cloudy": "It’s a cloudy day. Keep your spirits high and make the most of it.",
-            "Rainy": "Try to stay positive even though today might feel dreary.",
+            "Rain": "Try to stay positive even though today might feel dreary.",
             "Thunderstorm": "Storms pass. Take care of yourself and relax indoors.",
             "Snow": "Snow can be gloomy, but take care of yourself and make the day cozy."
         }
