@@ -149,6 +149,7 @@ class Weather:
 
     # Prints Hourly Data
     def printHourly(self):
+        self.ForecastHourly(lat, long)
         print(tabulate(self.hourly_dataframe, headers="keys", tablefmt="grid"))
 
 
@@ -251,7 +252,7 @@ if __name__=="__main__":
 
     lat, long = weather.SetCurrLoc()
     print(weather.ViewCurrWeather(lat, long))
-    print(weather.ForecastHourly(lat, long))
+    print(weather.printHourly())
 
 
 
