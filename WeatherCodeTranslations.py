@@ -4,93 +4,94 @@ weather = Weather()
 lat, long = weather.SetCurrLoc() 
 weatherDataCurr = weather.ViewCurrWeather(lat, long) 
 CurrWeatherCode = weatherDataCurr["CurrWeatherCode"]
+IsDay = weatherDataCurr["CurrIsDay"]
 
-
+print(f"Debug: CurrWeatherCode = {CurrWeatherCode}")
 class WeatherCodeTranslations:
-
-    def GetConditions():
+    @staticmethod
+    def GetConditions(CurrWeatherCode):
 
         conditionText = ""
 
         match(CurrWeatherCode):
             
-            case "0":
+            case "0.0":
                 conditionText = "Clear"
-            case "1":
+            case "1.0":
                 conditionText = "Clouds Dissapating"
-            case "2":
+            case "2.0":
                 conditionText = "Conditions Remain Same"
-            case "3":
+            case "3.0":
                 conditionText = "Clouds Developing"
-            case "5":
+            case "5.0":
                 conditionText = "Haze"
-            case "10":
+            case "10.0":
                 conditionText = "Mist"
-            case "11":
+            case "11.0":
                 conditionText = "Fog"
-            case "12":
+            case "12.0":
                 conditionText = "Fog"
-            case "13":
+            case "13.0":
                 conditionText = "Lightning"
-            case "19":
+            case "19.0":
                 conditionText = "Funnel Cloud Formation: Take Shelter"
-            case "20":
+            case "20.0":
                 conditionText = "Drizzle"
-            case "21":
+            case "21.0":
                 conditionText = "Rain"
             case "22":
                 conditionText = "Snow"
-            case "23":
+            case "23.0":
                 conditionText = "Wintery Mix"
-            case "24":
+            case "24.0":
                 conditionText = "Freezing Rain"
-            case "25":
+            case "25.0":
                 conditionText = "Rain Showers"
-            case "26":
+            case "26.0":
                 conditionText = "Snow Showers"
-            case "27":
+            case "27.0":
                 conditionText = "Hail"
-            case "28":
+            case "28.0":
                 conditionText = "Fog"
-            case "29":
+            case "29.0":
                 conditionText = "Thunderstorm"
-            case "80": 
+            case "80.0": 
                 conditionText = "Light Rain"
-            case "81":
+            case "81.0":
                 conditionText = "Rain"
-            case "82":
+            case "82.0":
                 conditionText = "Heavy Rain"
-            case "83":
+            case "83.0":
                 conditionText = "Light Wintery Mix"
-            case "84":
+            case "84.0":
                 conditionText = "Heavy Wintery Mix"
-            case "85":
+            case "85.0":
                 conditionText = "Light Snow"
-            case "86":
+            case "86.0":
                 conditionText = "Heavy Snow"
-            case "87":
+            case "87.0":
                 conditionText = "Light Small Hail"
-            case "88":
+            case "88.0":
                 conditionText = "Heavy Small Hail"
-            case "89":
+            case "89.0":
                 conditionText = "Light Hail"
-            case "90":
+            case "90.0":
                 conditionText = "Heavy Hail"
-            case "91":
+            case "91.0":
                 conditionText = "Light Rain"
-            case "92":
+            case "92.0":
                 conditionText = "Heavy Rain"
-            case "93":
+            case "93.0":
                 conditionText = "Light Snow"
-            case "94":
+            case "94.0":
                 conditionText = "Heavy Snow"
-            case "95":
+            case "95.0":
                 conditionText = "Thunderstorm and Hail"
-            case "96":
+            case "96.0":
                 conditionText = "Heavy Thunderstorm and Hail"
-            case "97":
+            case "97.0":
                 conditionText = "Thunderstorm"
-            case "99":
+            case "99.0":
                 conditionText = "Heavy Thunderstorm and Hail"
 
         
@@ -112,7 +113,7 @@ class WeatherCodeTranslations:
         return conditionText
     
 
-    def GetCategory():
+    def GetCategory(CurrWeatherCode):
 
         # Will return simplified categories for Wellness
 
@@ -123,6 +124,10 @@ class WeatherCodeTranslations:
             conditionCat = "Cloudy"
         elif curr == 0:
             conditionCat = "Clear"
+            if IsDay:
+                conditionCat = "Sunny"
+            else:
+                conditionCat = "Clear"
         elif 20 <= curr <= 21 or curr == 25 or 60 <= curr <= 65 or 80 <= curr <= 82 or 91 <= curr <= 92 or 14 <= curr <= 16:
             conditionCat = "Rain"
         elif curr == 5:
