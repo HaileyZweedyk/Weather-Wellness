@@ -21,6 +21,17 @@ openmeteo = openmeteo_requests.Client(session = retry_session)
 
 class Weather:
 
+    def __init__(self):
+        self.hourly_dataframe = None
+        self.daily_dataframe = None
+
+        self.current_apparent_temperature = 0
+        self.current_is_day = True
+        self.current_temperature_2m = 0
+        self.current_weather_code = -1
+        self.current_wind_direction_10m = None
+        self.current_wind_speed_10m = None
+
 
     # View Forecast
     def ForecastDaily(lat, long):
@@ -43,10 +54,10 @@ class Weather:
 
         # Process first location. Add a for-loop for multiple locations or weather models
         response = responses[0]
-        print(f"Coordinates {response.Latitude()}°N {response.Longitude()}°E")
+        """print(f"Coordinates {response.Latitude()}°N {response.Longitude()}°E")
         print(f"Elevation {response.Elevation()} m asl")
         print(f"Timezone {response.Timezone()} {response.TimezoneAbbreviation()}")
-        print(f"Timezone difference to GMT+0 {response.UtcOffsetSeconds()} s")
+        print(f"Timezone difference to GMT+0 {response.UtcOffsetSeconds()} s")"""
 
         # Process daily data. The order of variables needs to be the same as requested.
         daily = response.Daily()
@@ -70,10 +81,14 @@ class Weather:
         daily_data["wind_speed_10m_max"] = daily_wind_speed_10m_max
 
         daily_dataframe = pd.DataFrame(data = daily_data)
-        print(tabulate(daily_dataframe, headers="keys", tablefmt="grid"))
 
         return {"DailyWeatherCode": daily_weather_code, "DailyTempMax": daily_temperature_2m_max, "DailyTempMin": daily_temperature_2m_min, 
                 "DailyPrecipProb": daily_precipitation_probability_max, "DailyWindSpeed": daily_wind_speed_10m_max}
+    
+
+    # Prints Daily Forecast
+    def printDaily(self):
+        print(tabulate(self.daily_dataframe, headers="keys", tablefmt="grid"))
 
 
     # View Hourly Forecast
@@ -96,10 +111,10 @@ class Weather:
 
         # Process first location. Add a for-loop for multiple locations or weather models
         response = responses[0]
-        print(f"Coordinates {response.Latitude()}°N {response.Longitude()}°E")
+        """print(f"Coordinates {response.Latitude()}°N {response.Longitude()}°E")
         print(f"Elevation {response.Elevation()} m asl")
         print(f"Timezone {response.Timezone()} {response.TimezoneAbbreviation()}")
-        print(f"Timezone difference to GMT+0 {response.UtcOffsetSeconds()} s")
+        print(f"Timezone difference to GMT+0 {response.UtcOffsetSeconds()} s")"""
 
         # Process hourly data. The order of variables needs to be the same as requested.
         hourly = response.Hourly()
@@ -126,12 +141,15 @@ class Weather:
         hourly_data["wind_direction_10m"] = hourly_wind_direction_10m
         hourly_data["wind_gusts_10m"] = hourly_wind_gusts_10m
 
-        hourly_dataframe = pd.DataFrame(data = hourly_data)
-        print(tabulate(hourly_dataframe, headers="keys", tablefmt="grid"))
+        self.hourly_dataframe = pd.DataFrame(data = hourly_data)
+        
 
         return {"HourlyTemp": hourly_temperature_2m, "HourlyFeelsLike": hourly_apparent_temperature, "HourlyPrecipProb": hourly_precipitation_probability, "HourlyWeatherCode": hourly_weather_code,
                     "HourlyWindSpeed": hourly_wind_speed_10m, "HourlyWindDir": hourly_wind_direction_10m, "HourlyWindGusts": hourly_wind_gusts_10m}
 
+    # Prints Hourly Data
+    def printHourly(self):
+        print(tabulate(self.hourly_dataframe, headers="keys", tablefmt="grid"))
 
 
     # View Current Weather
@@ -152,38 +170,40 @@ class Weather:
 
         # Process first location. Add a for-loop for multiple locations or weather models
         response = responses[0]
-        print(f"Coordinates {response.Latitude()}°N {response.Longitude()}°E")
+        """print(f"Coordinates {response.Latitude()}°N {response.Longitude()}°E")
         print(f"Elevation {response.Elevation()} m asl")
         print(f"Timezone {response.Timezone()} {response.TimezoneAbbreviation()}")
-        print(f"Timezone difference to GMT+0 {response.UtcOffsetSeconds()} s")
+        print(f"Timezone difference to GMT+0 {response.UtcOffsetSeconds()} s")"""
 
 
         # Current values. The order of variables needs to be the same as requested.
         current = response.Current()
 
-        current_temperature_2m = current.Variables(0).Value()
+        self.current_temperature_2m = current.Variables(0).Value()
 
-        current_apparent_temperature = current.Variables(1).Value()
+        self.current_apparent_temperature = current.Variables(1).Value()
 
-        current_is_day = current.Variables(2).Value()
+        self.current_is_day = current.Variables(2).Value()
 
-        current_weather_code = current.Variables(3).Value()
+        self.current_weather_code = current.Variables(3).Value()
 
-        current_wind_speed_10m = current.Variables(4).Value()
+        self.current_wind_speed_10m = current.Variables(4).Value()
 
-        current_wind_direction_10m = current.Variables(5).Value()
+        self.current_wind_direction_10m = current.Variables(5).Value()
 
-        print(f"Current time {current.Time()}")
+        return {"CurrTemp": self.current_temperature_2m, "CurrFeelsLike": self.current_apparent_temperature, "CurrIsDay": self.current_is_day, "CurrWeatherCode": self.current_weather_code,
+                "CurrWindSpeed": self.current_wind_speed_10m, "CurrWindDir": self.current_wind_direction_10m}
+    
+    # Print Current Weather
+    def printCurr(self):
+        print(f"Current time {self.current.Time()}")
 
-        print(f"Current temperature: {current_temperature_2m}")
-        print(f"Current feels like: {current_apparent_temperature}")
-        print(f"Current is_day: {current_is_day}")
-        print(f"Current weather_code: {current_weather_code}")
-        print(f"Current wind speed: {current_wind_speed_10m}")
-        print(f"Current wind direction: {current_wind_direction_10m}")
-
-        return {"CurrTemp": current_temperature_2m, "CurrFeelsLike": current_apparent_temperature, "CurrIsDay": current_is_day, "CurrWeatherCode": current_weather_code,
-                "CurrWindSpeed": current_wind_speed_10m, "CurrWindDir": current_wind_direction_10m}
+        print(f"Current temperature: {self.current_temperature_2m}")
+        print(f"Current feels like: {self.current_apparent_temperature}")
+        print(f"Current is_day: {self.current_is_day}")
+        print(f"Current weather_code: {self.current_weather_code}")
+        print(f"Current wind speed: {self.current_wind_speed_10m}")
+        print(f"Current wind direction: {self.current_wind_direction_10m}")
 
 
     # Set Current Location

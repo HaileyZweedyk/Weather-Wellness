@@ -6,7 +6,6 @@ weatherDataCurr = weather.ViewCurrWeather(lat, long)
 CurrWeatherCode = weatherDataCurr["CurrWeatherCode"]
 IsDay = weatherDataCurr["CurrIsDay"]
 
-print(f"Debug: CurrWeatherCode = {CurrWeatherCode}")
 class WeatherCodeTranslations:
     @staticmethod
     def GetConditions(CurrWeatherCode):
