@@ -1,106 +1,100 @@
-from Weather import Weather
-from WeatherCodeTranslations import WeatherCodeTranslations
-
-weather = Weather()
-lat, long = weather.SetCurrLoc()
-weatherDataCurr = weather.ViewCurrWeather(lat, long)
-CurrWeatherCode = weatherDataCurr["CurrWeatherCode"]
-CurrTemp = weatherDataCurr["CurrTemp"]
-weather_condition = WeatherCodeTranslations.GetCategory(CurrWeatherCode)
-
-CurrWeatherCode = weatherDataCurr.get("CurrWeatherCode", None)
-CurrTemp = weatherDataCurr.get("CurrTemp", None)
-
 
 class Clothing:
-    @staticmethod
-    def suggest_clothing(CurrTemp):
-        if CurrTemp < 0:
-            condition = "very_cold"
-        elif 0 <= CurrTemp <= 9:
-            condition = "single_digits"
-        elif 10 <= CurrTemp <= 32:
-            condition = "cold"
-        elif 33 <= CurrTemp <= 55:
-            condition = "chilly"
-        elif 56 <= CurrTemp <= 69:
-            condition = "moderate"
-        elif 70 <= CurrTemp <= 84:
-            condition = "warm"
+
+
+    def suggest_clothing(temp):
+        if temp < 0:
+            print("Temperature is in the negatives today. Avoid going outside, but if necessary, dress in heavy layers and make sure your ears, nose, and hands are covered at all times.")
+        elif 0 < temp < 9:
+            print("The temperature is in the single digits. When outside keep your ears, nose, and hands covered. Wear heavy winter clothing, including a thick coat, gloves, hat, scarf, and boots.")
+        elif 10 <= temp <= 32:
+            print("It's cold but not in the single digits yet. Wear a winter coat, gloves, and a hat.")
+        elif 33 <= temp <= 55:
+            print("The temperature is chilly. Wear layers, like a jacket or sweater, long pants, and close toed shoes.")
+        elif 56 <= temp <= 69:
+            print("The temperature is moderate. Pair a light jacket or longsleeves with pants. Otherwise a sweatshirt or thick jacket with shorts. Wear closed toed shoes.")
+        elif 70 <= temp <= 84:
+            print("The temperature is hot. Wear a tee shirt or tank top, shorts and sandals or tennis shoes. If it sunny think about adding sunglasses or a hat.")
         else:
-            condition = "hot"
-        clothing_suggestions = {
-            "very_cold": "Temperature is in the negatives today. Avoid going outside, but if necessary, dress in heavy layers and make sure your ears, nose, and hands are covered at all times.",
-            "single_digits": "The temperature is in the single digits. When outside, keep your ears, nose, and hands covered. Wear heavy winter clothing, including a thick coat, gloves, hat, scarf, and boots.",
-            "cold": "It's cold but not in the single digits yet. Wear a winter coat, gloves, and a hat.",
-            "chilly": "The temperature is chilly. Wear layers, like a jacket or sweater, long pants, and closed-toe shoes.",
-            "moderate": "The temperature is moderate. Pair a light jacket or long sleeves with pants. Otherwise, a sweatshirt or thick jacket with shorts. Wear closed-toe shoes.",
-            "warm": "The temperature is warm. Wear a T-shirt or tank top, shorts, and sandals or tennis shoes. If it’s sunny, consider adding sunglasses or a hat.",
-            "hot": "It's very hot outside! Wear lightweight, flowy clothing, a hat, and sandals or tennis shoes."
-        }
-
-        clothing_suggestion = clothing_suggestions.get(condition)
-
-        print(clothing_suggestion)
-
-        return clothing_suggestion
-
+            print("It's very hot outside! Wear lightweight flowy clothing, a hat and sandals or tennis shoes.")
 
 class Activities:
-    @staticmethod
     def suggest_activities(weather_condition):
-        suggestions = {
-            "Sunny": "Walking, hiking, biking, going to the beach, or having a picnic.",
-            "Cloudy": "Visiting a café, museum, or running some errands.",
-            "Rain": "Reading, watching movies, cooking, or doing a puzzle.",
-            "Haze": "Go to a really scenic location and take some cool pictures! Or play a board game or watch a movie.",
-            "Fog": "Pray that there is a 2 hour delay for school. Stay inside and hang out but if you're feeling it, head out for a walk still",
-            "Snow": "Sledding, snowboarding, skiing, or staying inside with a book.",
-            "Thunderstorm": "Staying inside and doing yoga, puzzles, or watching a movie."
-        }
-        suggestion = suggestions.get(weather_condition)
-        print(suggestion)
-        return suggestion
+        if weather_condition == "sunny":
+            print("Hooray it's sunny outside! Walking, hiking, biking, going to the beach, or having a picnic in the park are great to do on sunny days like this one.")
+        elif weather_condition == "cloudy":
+            print("It’s cloudy outside today. Going to a café, visting a muesuem or running some errands are some things to do on cloudy days like this one.")
+        elif weather_condition == "partly sunny":
+            print("It is partly sunny today. Take a walk, do some yard work or take a trip to the zoo.")
+        elif weather_condition == "rainy":
+            print("It's rainy out. Some indoor activities to do are reading, watching movies, cooking, or doing a puzzle. ")
+        elif weather_condition == "windy":
+            print("Look out it's windy today! You could go to the mall, do some chores inside, or try flying a kite.")
+        elif weather_condition == "snowy":
+            print("It's snowing today. You could brave the snow and go sledding, snowboarding, or skiing. Otherwise, stay inside build a fire, play board games, watch movies or read a book.")
+        elif weather_condition == "thunderstorms":
+            print("Uh oh, it's thunderstorming! Stay inside and do a puzzle, try at home yoga, or watch a movie.")
+        else:
+            print("Weather condition not recognized. Check the forecast for more information.")
 
 class Driving:
-    @staticmethod
     def driving_techniques(weather_condition):
-        tips = {
-            "Snow": "- Slow down and increase your following distance.\n- Avoid sudden steering or braking.\n- Drive in the tire tracks of other vehicles.",
-            "Ice": "- Drive much slower.\n- Avoid cruise control.\n- Brake gently to avoid skidding.",
-            "Wind": "- Grip the steering wheel firmly.\n- Stay cautious around large vehicles.\n- Keep a larger distance from other vehicles.",
-            "Rain": "- Reduce speed to avoid slipping.\n- Increase following distance.\n- Use headlights and windshield wipers.",
-            "Thunderstorm": "- Use headlights and windshield wipers.\n- Avoid flooded areas.\n- If conditions are severe, pull over safely.",
-            "Cloudy": "- No driving techniques are reccomended due to todays condition",
-            "Clear": "- No driving techniques are reccomended due to todays condition",
-            "Sunny": "- No driving techniques are reccomended due to todays condition"
-        }
-        tip = tips.get(weather_condition)
-        print(tip)
-        return tip
+        if weather_condition == "snow":
+            print("Tips for driving in the snow: ")
+            print("- Slow down and reduce your speed.")
+            print("- Increase your following distance.")
+            print("- Drive in the tire tracks of other vehicles if possible.")
+            print("- Avoid sudden steering or braking to prevent loss of control.")
+            print("- Keep headlights on for better visibility.")
+        elif weather_condition == "ice":
+            print("Tips for driving in icy conditions: ")
+            print("- Drive at a much slower speed.")
+            print("- Avoid using cruise control.")
+            print("- Brake gently and avoid sudden movements that could cause skidding.")
+            print("- Increase following distance significantly.")
+            print("- Stay in your lane and avoid abrupt steering.")
+        elif weather_condition == "wind":
+            print("Tips for driving in windy conditions: ")
+            print("- Grip the steering wheel firmly and use both hands.")
+            print("- Be aware of large gusts of wind that could move the car.")
+            print("- Stay cautious around large vehicles like trucks and buses.")
+            print("- Keep a larger distance from other vehicles to avoid being pushed by wind.")
+        elif weather_condition == "rain":
+            print("Tips for driving in the rain: ")
+            print("- Slow down and reduce speed to avoid slipping.")
+            print("- Increase your following distance to give yourself more stopping time.")
+            print("- Use your headlights and windshield wipers for better visibility.")
+            print("- Avoid driving through large puddles or flooded areas.")
+            print("- Turn off cruise control to maintain full control of your vehicle.")
+        elif weather_condition == "thunderstorm":
+            print("Tips for driving in a thunderstorm: ")
+            print("- Use your headlights and windshield wipers to maximize visibility.")
+            print("- Avoid driving through flooded areas to prevent hydroplaning.")
+            print("- Be aware of sudden gusts of wind and potential debris on the road.")
+            print("-If conditions are severe pull over in a covered area to let the storm pass.")
+        else:
+            print("Weather condition not recognized. Please enter a valid condition (snow, ice, wind, rain, or thunderstorm).")
 
 class Mood_Weather:
-    @staticmethod
+# we need to resonsider this probs need input statments
     def mood_weather(weather_condition):
-        moods = {
-            "Sunny": "Take advantage of the sunshine and soak up some vitamin D (wear sunscreen).",
-            "Cloudy": "It’s a cloudy day. Keep your spirits high and make the most of it.",
-            "Rain": "Try to stay positive even though today might feel dreary.",
-            "Thunderstorm": "Storms pass. Take care of yourself and relax indoors.",
-            "Snow": "Snow can be gloomy, but take care of yourself and make the day cozy."
-        }
-        mood = moods.get(weather_condition)
-        print(mood)
-        return mood
+        if weather_condition == "sunny":
+            print("The sun is shining out! Take advantage of this beautiful sunshine and soak up some vitamin D (not too much though, wear your sunscreen).")
+        elif weather_condition == "cloudy":
+            print("There is no sun today. You might be feeling a little down today, but don't let that stop you from having a great day.")
+        elif weather_condition == "rainy":
+            print("It's a rainy one today. Try to keep your spirits high even though today might seem dreary.")
+        elif weather_condition == "thunderstorm":
+            print("It's storming out. If you're up for it, watch the storms roll through. Otherwise, take care of yourself because sunny days are inevitable.")
+        elif weather_condition == "snowy":
+            print("It's snowing outside. Snow can really bring down our mood sometimes, so it is important to take care of yourself today.")
+        else:
+            print("Weather condition not recognized. Please enter a valid condition (sunny, cloudy, snowy, rain, or thunderstorm).")
 
-        
+class Mood_Forcast:
 
-class Mood_Forecast:
-    @staticmethod
     def mood_forecast():
-        pass  # Future integration for forecast-based mood predictions
-
-Clothing.suggest_clothing(CurrTemp)
-Activities.suggest_activities(weather_condition)
-Driving.driving_techniques(weather_condition)
-Mood_Weather.mood_weather(weather_condition)
+        pass
+        # Generate forecast from Weather.py
+        # print(f"{day}: mood_weather(weather_condition)", end="")
+    
