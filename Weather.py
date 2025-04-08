@@ -1,11 +1,15 @@
+# CODE COVERAGE
+
+
 # Tabulate for table formats
 from tabulate import tabulate
+
+# GUI API
 
 # Weather API
 import openmeteo_requests
 
 import requests_cache
-import pandas as pd
 from retry_requests import retry
 
 # Location API
@@ -88,6 +92,7 @@ class Weather:
 
     # Prints Daily Forecast
     def printDaily(self):
+        self.ForecastDaily(lat, long)
         print(tabulate(self.daily_dataframe, headers="keys", tablefmt="grid"))
 
 
@@ -197,6 +202,7 @@ class Weather:
     
     # Print Current Weather
     def printCurr(self):
+        self.ViewCurrWeather(lat, long)
         print(f"Current time {self.current.Time()}")
 
         print(f"Current temperature: {self.current_temperature_2m}")
@@ -246,13 +252,6 @@ class Weather:
         return lat, long
 
 
-if __name__=="__main__":
-
-    weather = Weather()
-
-    lat, long = weather.SetCurrLoc()
-    print(weather.ViewCurrWeather(lat, long))
-    print(weather.printHourly())
 
 
 
