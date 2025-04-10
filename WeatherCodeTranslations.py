@@ -1,110 +1,107 @@
 from Weather import Weather
 
-weather = Weather() 
-lat, long = weather.SetCurrLoc() 
-weatherDataCurr = weather.ViewCurrWeather(lat, long) 
-CurrWeatherCode = weatherDataCurr["CurrWeatherCode"]
-IsDay = weatherDataCurr["CurrIsDay"]
-
 class WeatherCodeTranslations:
-    @staticmethod
-    def GetConditions(CurrWeatherCode):
+
+    def __init__(self):
+        pass
+
+    
+    def GetConditions(self, CurrWeatherCode):
 
         conditionText = ""
 
-        match(CurrWeatherCode):
             
-            case "0.0":
-                conditionText = "Clear"
-            case "1.0":
-                conditionText = "Clouds Dissapating"
-            case "2.0":
-                conditionText = "Conditions Remain Same"
-            case "3.0":
-                conditionText = "Clouds Developing"
-            case "5.0":
-                conditionText = "Haze"
-            case "10.0":
-                conditionText = "Mist"
-            case "11.0":
-                conditionText = "Fog"
-            case "12.0":
-                conditionText = "Fog"
-            case "13.0":
-                conditionText = "Lightning"
-            case "19.0":
-                conditionText = "Funnel Cloud Formation: Take Shelter"
-            case "20.0":
-                conditionText = "Drizzle"
-            case "21.0":
-                conditionText = "Rain"
-            case "22":
-                conditionText = "Snow"
-            case "23.0":
-                conditionText = "Wintery Mix"
-            case "24.0":
-                conditionText = "Freezing Rain"
-            case "25.0":
-                conditionText = "Rain Showers"
-            case "26.0":
-                conditionText = "Snow Showers"
-            case "27.0":
-                conditionText = "Hail"
-            case "28.0":
-                conditionText = "Fog"
-            case "29.0":
-                conditionText = "Thunderstorm"
-            case "80.0": 
-                conditionText = "Light Rain"
-            case "81.0":
-                conditionText = "Rain"
-            case "82.0":
-                conditionText = "Heavy Rain"
-            case "83.0":
-                conditionText = "Light Wintery Mix"
-            case "84.0":
-                conditionText = "Heavy Wintery Mix"
-            case "85.0":
-                conditionText = "Light Snow"
-            case "86.0":
-                conditionText = "Heavy Snow"
-            case "87.0":
-                conditionText = "Light Small Hail"
-            case "88.0":
-                conditionText = "Heavy Small Hail"
-            case "89.0":
-                conditionText = "Light Hail"
-            case "90.0":
-                conditionText = "Heavy Hail"
-            case "91.0":
-                conditionText = "Light Rain"
-            case "92.0":
-                conditionText = "Heavy Rain"
-            case "93.0":
-                conditionText = "Light Snow"
-            case "94.0":
-                conditionText = "Heavy Snow"
-            case "95.0":
-                conditionText = "Thunderstorm and Hail"
-            case "96.0":
-                conditionText = "Heavy Thunderstorm and Hail"
-            case "97.0":
-                conditionText = "Thunderstorm"
-            case "99.0":
-                conditionText = "Heavy Thunderstorm and Hail"
+        if CurrWeatherCode == 0.0:
+            conditionText = "Clear"
+        elif CurrWeatherCode == 1.0:
+            conditionText = "Clouds Dissapating"
+        elif CurrWeatherCode == 2.0:
+            conditionText = "Conditions Remain Same"
+        elif CurrWeatherCode == 3.0:
+            conditionText = "Clouds Developing"
+        elif CurrWeatherCode == 5.0:
+            conditionText = "Haze"
+        elif CurrWeatherCode == 10.0:
+            conditionText = "Mist"
+        elif CurrWeatherCode == 11.0:
+            conditionText = "Fog"
+        elif CurrWeatherCode == 12.0:
+            conditionText = "Fog"
+        elif CurrWeatherCode == 13.0:
+            conditionText = "Lightning"
+        elif CurrWeatherCode == 19.0:
+            conditionText = "Funnel Cloud Formation: Take Shelter"
+        elif CurrWeatherCode == 20.0:
+            conditionText = "Drizzle"
+        elif CurrWeatherCode == 21.0:
+            conditionText = "Rain"
+        elif CurrWeatherCode == 22:
+            conditionText = "Snow"
+        elif CurrWeatherCode == 23.0:
+            conditionText = "Wintery Mix"
+        elif CurrWeatherCode == 24.0:
+            conditionText = "Freezing Rain"
+        elif CurrWeatherCode == 25.0:
+            conditionText = "Rain Showers"
+        elif CurrWeatherCode == 26.0:
+            conditionText = "Snow Showers"
+        elif CurrWeatherCode == 27.0:
+            conditionText = "Hail"
+        elif CurrWeatherCode == 28.0:
+            conditionText = "Fog"
+        elif CurrWeatherCode == 29.0:
+            conditionText = "Thunderstorm"
+        elif CurrWeatherCode == 80.0: 
+            conditionText = "Light Rain"
+        elif CurrWeatherCode == 81.0:
+            conditionText = "Rain"
+        elif CurrWeatherCode == 82.0:
+            conditionText = "Heavy Rain"
+        elif CurrWeatherCode == 83.0:
+            conditionText = "Light Wintery Mix"
+        elif CurrWeatherCode == 84.0:
+            conditionText = "Heavy Wintery Mix"
+        elif CurrWeatherCode == 85.0:
+            conditionText = "Light Snow"
+        elif CurrWeatherCode == 86.0:
+            conditionText = "Heavy Snow"
+        elif CurrWeatherCode == 87.0:
+            conditionText = "Light Small Hail"
+        elif CurrWeatherCode == 88.0:
+            conditionText = "Heavy Small Hail"
+        elif CurrWeatherCode == 89.0:
+            conditionText = "Light Hail"
+        elif CurrWeatherCode == 90.0:
+            conditionText = "Heavy Hail"
+        elif CurrWeatherCode == 91.0:
+            conditionText = "Light Rain"
+        elif CurrWeatherCode == 92.0:
+            conditionText = "Heavy Rain"
+        elif CurrWeatherCode == 93.0:
+            conditionText = "Light Snow"
+        elif CurrWeatherCode == 94.0:
+            conditionText = "Heavy Snow"
+        elif CurrWeatherCode == 95.0:
+            conditionText = "Thunderstorm and Hail"
+        elif CurrWeatherCode == 96.0:
+            conditionText = "Heavy Thunderstorm and Hail"
+        elif CurrWeatherCode == 97.0:
+            conditionText = "Thunderstorm"
+        elif CurrWeatherCode == 99.0:
+            conditionText = "Heavy Thunderstorm and Hail"
 
         
-        if 36 <= CurrWeatherCode <= 39:
+        elif 36.0 <= CurrWeatherCode <= 39.0:
             conditionText = "Drifting Snow"
-        elif 40 <= CurrWeatherCode <= 49:
+        elif 40.0 <= CurrWeatherCode <= 49.0:
             conditionText = "Fog"
-        elif 50 <= CurrWeatherCode <= 59:
+        elif 50.0 <= CurrWeatherCode <= 59.0:
             conditionText = "Drizzle"
-        elif 60 <= CurrWeatherCode <= 65 or 68 <= CurrWeatherCode <= 69:
+        elif 60.0 <= CurrWeatherCode <= 65.0 or 68.0 <= CurrWeatherCode <= 69.0:
             conditionText = "Rain"
-        elif 65 <= CurrWeatherCode <= 67:
+        elif 65.0 <= CurrWeatherCode <= 67.0:
             conditionText = "Freezing Rain"
-        elif 70 <= CurrWeatherCode <= 75:
+        elif 70.0 <= CurrWeatherCode <= 75.0:
             conditionText = "Snow"
         else:
             conditionText = "Not in Current Database"
@@ -112,7 +109,7 @@ class WeatherCodeTranslations:
         return conditionText
     
 
-    def GetCategory(CurrWeatherCode):
+    def GetCategory(CurrWeatherCode, isDay):
 
         # Will return simplified categories for Wellness
 
@@ -122,8 +119,7 @@ class WeatherCodeTranslations:
         if curr == 3 or curr == 1:
             conditionCat = "Cloudy"
         elif curr == 0:
-            conditionCat = "Clear"
-            if IsDay:
+            if isDay:
                 conditionCat = "Sunny"
             else:
                 conditionCat = "Clear"
@@ -141,3 +137,6 @@ class WeatherCodeTranslations:
             conditionCat = "Not in Current Database"
 
         return conditionCat
+    
+
+

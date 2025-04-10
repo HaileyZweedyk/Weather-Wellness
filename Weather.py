@@ -11,6 +11,7 @@ import openmeteo_requests
 
 import requests_cache
 from retry_requests import retry
+import pandas as pd
 
 # Location API
 import geocoder
@@ -26,6 +27,7 @@ openmeteo = openmeteo_requests.Client(session = retry_session)
 class Weather:
 
     def __init__(self):
+        self.lat, self.long = self.SetCurrLoc()
         self.hourly_dataframe = None
         self.daily_dataframe = None
 
@@ -38,7 +40,7 @@ class Weather:
 
 
     # View Forecast
-    def ForecastDaily(lat, long):
+    def ForecastDaily(lat, longi):
         # For weather codes, refer to https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
         # -----------------------------------
 
@@ -47,7 +49,7 @@ class Weather:
         url = "https://api.open-meteo.com/v1/forecast"
         params = {
             "latitude": lat,
-            "longitude": long,
+            "longitude": longi,
             "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "precipitation_probability_max", "wind_speed_10m_max"],
             "temperature_unit": "fahrenheit",
             "wind_speed_unit": "mph",
@@ -92,7 +94,7 @@ class Weather:
 
     # Prints Daily Forecast
     def printDaily(self):
-        self.ForecastDaily(lat, long)
+        self.ForecastDaily(self.lat, self.long)
         print(tabulate(self.daily_dataframe, headers="keys", tablefmt="grid"))
 
 
@@ -154,11 +156,12 @@ class Weather:
 
     # Prints Hourly Data
     def printHourly(self):
-        self.ForecastHourly(lat, long)
+        self.ForecastHourly(self.lat, self.long)
         print(tabulate(self.hourly_dataframe, headers="keys", tablefmt="grid"))
 
 
     # View Current Weather
+
     def ViewCurrWeather(self, lat, long):
         # Make sure all required weather variables are listed here
         # The order of variables in hourly or daily is important to assign them correctly below
@@ -185,24 +188,24 @@ class Weather:
         # Current values. The order of variables needs to be the same as requested.
         current = response.Current()
 
-        self.current_temperature_2m = current.Variables(0).Value()
+        current_temperature_2m = current.Variables(0).Value()
 
-        self.current_apparent_temperature = current.Variables(1).Value()
+        current_apparent_temperature = current.Variables(1).Value()
 
-        self.current_is_day = current.Variables(2).Value()
+        current_is_day = current.Variables(2).Value()
 
-        self.current_weather_code = current.Variables(3).Value()
+        current_weather_code = current.Variables(3).Value()
 
-        self.current_wind_speed_10m = current.Variables(4).Value()
+        current_wind_speed_10m = current.Variables(4).Value()
 
-        self.current_wind_direction_10m = current.Variables(5).Value()
+        current_wind_direction_10m = current.Variables(5).Value()
 
-        return {"CurrTemp": self.current_temperature_2m, "CurrFeelsLike": self.current_apparent_temperature, "CurrIsDay": self.current_is_day, "CurrWeatherCode": self.current_weather_code,
-                "CurrWindSpeed": self.current_wind_speed_10m, "CurrWindDir": self.current_wind_direction_10m}
+        return {"CurrTemp": current_temperature_2m, "CurrFeelsLike": current_apparent_temperature, "CurrIsDay": current_is_day, "CurrWeatherCode": current_weather_code,
+                "CurrWindSpeed": current_wind_speed_10m, "CurrWindDir": current_wind_direction_10m}
     
     # Print Current Weather
     def printCurr(self):
-        self.ViewCurrWeather(lat, long)
+        self.ViewCurrWeather(self.lat, self.long)
         print(f"Current time {self.current.Time()}")
 
         print(f"Current temperature: {self.current_temperature_2m}")
@@ -224,32 +227,18 @@ class Weather:
 
         # City conversion still in progress !!!!!!!!!!!!!!!
         
-        isValid = False
+        loc = geocoder.ip('me')
 
-        while not isValid:
-            useCurrLoc = input('Do you want to use your current location? (yes/no/cancel): ')
-            if useCurrLoc.lower() == 'yes':
-                loc = geocoder.ip('me')
+        if loc.ok:
+            lat, long = loc.latlng
+        else:
+            print("Could not retrieve current location")
+            raise Exception("Canceled")
+        
 
-                if loc.ok:
-                    lat, long = loc.latlng
-                    isValid = True
-                else:
-                    print("Could not retrieve current location")
-            
-            elif useCurrLoc.lower() == 'no':
-                city = input("Enter City: ")
-                loc = geocoder.osm(city)
+        return float(lat), float(long)
 
-                if loc.ok:
-                    lat, long = loc.latlng
-                    isValid = True
-                else:
-                    print("City could not be found. Try Again or choose your location.")
-            elif useCurrLoc.lower() == 'cancel':
-                raise Exception("Canceled")
 
-        return lat, long
 
 
 
