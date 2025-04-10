@@ -97,4 +97,21 @@ class Mood_Forcast:
         pass
         # Generate forecast from Weather.py
         # print(f"{day}: mood_weather(weather_condition)", end="")
+
+journal = {}
+
+while True:
+    print("\n--- Journal Entry ---")
+    title = input("Enter the title (or type 'quit' to stop): ")
+    if title.lower() == 'quit':
+        break
+
+    entry = input("Write your journal entry:\n")
+    journal[title] = entry
+    print(f"Entry saved!")
+
+print("\nYour Journal:")
+for title, entry in journal.items():
+    print(f"\nTitle: {title}\nEntry: {entry}")
+
     
