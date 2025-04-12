@@ -109,14 +109,16 @@ class WeatherCodeTranslations:
         return conditionText
     
 
-    def GetCategory(CurrWeatherCode, isDay):
+    def GetCategory(self, CurrWeatherCode, isDay):
 
         # Will return simplified categories for Wellness
 
         conditionCat = ""
         curr = CurrWeatherCode
 
-        if curr == 3 or curr == 1:
+        if curr == 1:
+            conditionCat = "Partly Cloudy"
+        elif curr == 3:
             conditionCat = "Cloudy"
         elif curr == 0:
             if isDay:
@@ -133,6 +135,8 @@ class WeatherCodeTranslations:
             conditionCat = "Thunderstorm"
         elif curr == 20 or 22 <= curr <= 23 or curr == 26 or 70 <= curr <= 79 or 85 <= curr <= 88 or 93 <= curr <= 94:
             conditionCat = "Snow"
+        elif curr == 85 or curr == 86:
+            conditionCat = "Wintery Mix"
         else:
             conditionCat = "Not in Current Database"
 

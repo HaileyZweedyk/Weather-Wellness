@@ -1,5 +1,5 @@
-# CODE COVERAGE
-
+from datetime import datetime
+import requests
 
 # Tabulate for table formats
 from tabulate import tabulate
@@ -37,6 +37,7 @@ class Weather:
         self.current_weather_code = -1
         self.current_wind_direction_10m = None
         self.current_wind_speed_10m = None
+        self.now = datetime.now()
 
 
     # View Forecast
@@ -112,7 +113,7 @@ class Weather:
             "wind_speed_unit": "mph",
             "precipitation_unit": "inch",
             "timezone": "auto",
-            "forecast_days": 1
+            "forecast_days": 2
         }
         responses = openmeteo.weather_api(url, params=params)
 
@@ -140,7 +141,8 @@ class Weather:
             inclusive = "left"
         )}
 
-        hourly_data["temperature_2m"] = hourly_temperature_2m
+
+        hourly_data["temperature_2m"] = hourly_temperature_2m 
         hourly_data["apparent_temperature"] = hourly_apparent_temperature
         hourly_data["precipitation_probability"] = hourly_precipitation_probability
         hourly_data["weather_code"] = hourly_weather_code
@@ -237,7 +239,6 @@ class Weather:
         
 
         return float(lat), float(long)
-
 
 
 

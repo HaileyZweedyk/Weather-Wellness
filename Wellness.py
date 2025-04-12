@@ -2,7 +2,7 @@
 class Clothing:
 
 
-    def suggest_clothing(temp):
+    def suggest_clothing(self, temp):
         if temp < 0:
             print("Temperature is in the negatives today. Avoid going outside, but if necessary, dress in heavy layers and make sure your ears, nose, and hands are covered at all times.")
         elif 0 < temp < 9:
@@ -19,7 +19,7 @@ class Clothing:
             print("It's very hot outside! Wear lightweight flowy clothing, a hat and sandals or tennis shoes.")
 
 class Activities:
-    def suggest_activities(weather_condition):
+    def suggest_activities(self, weather_condition):
         if weather_condition == "sunny":
             print("Hooray it's sunny outside! Walking, hiking, biking, going to the beach, or having a picnic in the park are great to do on sunny days like this one.")
         elif weather_condition == "cloudy":
@@ -38,7 +38,7 @@ class Activities:
             print("Weather condition not recognized. Check the forecast for more information.")
 
 class Driving:
-    def driving_techniques(weather_condition):
+    def driving_techniques(self, weather_condition):
         if weather_condition == "snow":
             print("Tips for driving in the snow: ")
             print("- Slow down and reduce your speed.")
@@ -77,7 +77,7 @@ class Driving:
 
 class Mood_Weather:
 # we need to resonsider this probs need input statments
-    def mood_weather(weather_condition):
+    def mood_weather(self, weather_condition):
         if weather_condition == "sunny":
             print("The sun is shining out! Take advantage of this beautiful sunshine and soak up some vitamin D (not too much though, wear your sunscreen).")
         elif weather_condition == "cloudy":
@@ -93,25 +93,30 @@ class Mood_Weather:
 
 class Mood_Forcast:
 
-    def mood_forecast():
+    def mood_forecast(self):
         pass
         # Generate forecast from Weather.py
         # print(f"{day}: mood_weather(weather_condition)", end="")
+    
 
-journal = {}
+class Journal:
+    
+    def journal(self):
 
-while True:
-    print("\n--- Journal Entry ---")
-    title = input("Enter the title (or type 'quit' to stop): ")
-    if title.lower() == 'quit':
-        break
+        journal = {}
 
-    entry = input("Write your journal entry:\n")
-    journal[title] = entry
-    print(f"Entry saved!")
+        while True:
+            print("\n--- Journal Entry ---")
+            title = input("Enter the title (or type 'quit' to stop): ")
+            if title.lower() == 'quit':
+                break
 
-print("\nYour Journal:")
-for title, entry in journal.items():
-    print(f"\nTitle: {title}\nEntry: {entry}")
+            entry = input("Write your journal entry:\n")
+            journal[title] = entry
+            print(f"Entry saved!")
+
+        print("\nYour Journal:")
+        for title, entry in journal.items():
+            print(f"\nTitle: {title}\nEntry: {entry}")
 
     
