@@ -133,11 +133,11 @@ class Main:
         hourlyWindSpeedArr = hourlyDict["HourlyWindSpeed"]
         hourlyWindDirArr = hourlyDict["HourlyWindDir"]
 
-        isDay = False
         now = datetime.now()
         hour = int(now.hour)
         hourNew = hour
         timeStr = str(hourNew) + ":00"
+
 
         # Gets rid of the current window
         self.root.destroy()
@@ -181,6 +181,7 @@ class Main:
             hourlyWindDir = int(hourlyWindDirArr[i])
             hourlyWindDirStr = self.getWindDir(hourlyWindDir)
             hourlyWindSpeedStr = str(hourlyWindSpeed) + " mph"
+            isDay = False
 
         
             # If its between the hours of 8am and 8pm, isDay will be false meaning it's night
@@ -190,11 +191,15 @@ class Main:
             weatherTranslations = WeatherCodeTranslations()
             hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCode)
             hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
-            if isDay and hourlyWeatherText == "Clear":
-                hourlyWeatherText = "Sunny"
+
+            # Catches the previous hours conditions if the condition is "Conditions remain same"
             if hourlyWeatherText == "Conditions Remain Same":
                 hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCodeArr[i-1])
                 hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCodeArr[i-1], isDay)
+
+            # Catches Sunny for day and Clear for night
+            if isDay and hourlyWeatherText == "Clear":
+                hourlyWeatherText = "Sunny"
 
             # Check Weather
             imageName = self.checkWeatherCat(hourlyWeatherCat)
