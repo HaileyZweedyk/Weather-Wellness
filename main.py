@@ -192,6 +192,9 @@ class Main:
             hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
             if isDay and hourlyWeatherText == "Clear":
                 hourlyWeatherText = "Sunny"
+            if hourlyWeatherText == "Conditions Remain Same":
+                hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCodeArr[i-1])
+                hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCodeArr[i-1], isDay)
 
             # Check Weather
             imageName = self.checkWeatherCat(hourlyWeatherCat)
@@ -341,7 +344,13 @@ class Main:
 # This is the function that brings you to the wellness section upon click of the wellness button
 # This shows predicive moods and allows you to journal how you feel
     def wellness(self):
-        pass
+
+        # Destroy Current Window
+        self.root.destroy()
+
+        # Create New Window
+        self.root = tk.Tk()
+        self.root.title("Wellness")
 
 
     def getWindDir(self, windDir):
