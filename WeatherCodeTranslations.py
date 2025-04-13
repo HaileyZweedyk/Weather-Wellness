@@ -32,7 +32,7 @@ class WeatherCodeTranslations:
         elif CurrWeatherCode == 19.0:
             conditionText = "Funnel Cloud Formation: Take Shelter"
         elif CurrWeatherCode == 20.0:
-            conditionText = "Drizzle"
+            conditionText = "Rain"
         elif CurrWeatherCode == 21.0:
             conditionText = "Rain"
         elif CurrWeatherCode == 22:
@@ -96,7 +96,7 @@ class WeatherCodeTranslations:
         elif 40.0 <= CurrWeatherCode <= 49.0:
             conditionText = "Fog"
         elif 50.0 <= CurrWeatherCode <= 59.0:
-            conditionText = "Drizzle"
+            conditionText = "Rain"
         elif 60.0 <= CurrWeatherCode <= 65.0 or 68.0 <= CurrWeatherCode <= 69.0:
             conditionText = "Rain"
         elif 65.0 <= CurrWeatherCode <= 67.0:
@@ -128,7 +128,7 @@ class WeatherCodeTranslations:
                 conditionCat = "Sunny"
             else:
                 conditionCat = "Clear"
-        elif 20 <= curr <= 21 or curr == 25 or 60 <= curr <= 65 or 80 <= curr <= 82 or 91 <= curr <= 92 or 14 <= curr <= 16 or curr == 51:
+        elif 20 <= curr <= 21 or curr == 25 or 60 <= curr <= 65 or 80 <= curr <= 82 or 91 <= curr <= 92 or 14 <= curr <= 16 or curr == 51 or curr == 53:
             conditionCat = "Rain"
         elif curr == 5:
             conditionCat = "Haze"

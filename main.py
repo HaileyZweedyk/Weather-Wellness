@@ -10,18 +10,32 @@ from PIL import Image, ImageTk
 # Local Time
 from datetime import datetime
 
+# Get Location
+import ssl
+import certifi
+from geopy.geocoders import Nominatim
+import geopy.geocoders
+
 class Main:
 
     def __init__(self):
         self.root = ""
         self.now = datetime.now()
-        self.currentTime = self.now.strftime("%H:%M:%S")
+        self.currentTime = self.now.strftime("%H:%M")
         self.weatherIcons = []
+        self.days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        self.city = ""
 
     def mainLoop(self):
-        
+
         weather = Weather()
         lat, long = weather.SetCurrLoc()
+
+        # Get Nearest City/Location
+
+        self.getNearestCity(lat, long)
+        
+        
         curr_weather = weather.ViewCurrWeather(lat, long)
         temp = curr_weather["CurrTemp"]
 
@@ -50,30 +64,13 @@ class Main:
                     label = tk.Label(self.root, padx=50, pady=0)
                     label.grid(row=row, column=col, padx=20, pady=0)
 
-
-        # Hourly Button
-        hourly_button = Button(self.root, text="Hourly Forecast", width=10, height=2, command=self.hourlyForecast)
-        hourly_button.grid(row=7, column=1, padx=5, pady=5)
-        
-        # Daily Button
-        daily_button = Button(self.root, text="Daily Forecast", width=10, height=2, command=self.dailyForecast)
-        daily_button.grid(row=8, column=1, padx=5, pady=5)
-
-        # Wellness Button
-        wellness_button = Button(self.root, text="Wellness", width=10, height=2, command=self.wellness)
-        wellness_button.grid(row=9, column=1, padx=5, pady=5)
-
-        # Time Label
-        temp_icon_label = tk.Label(self.root, text=self.currentTime, font=("Arial", 15))
-        temp_icon_label.grid(row=10, column=1, padx=5, pady=5)
-
-        # Curr Weather
         # Location 
         strLat = str(lat)
         strLong = str(long)
         latlong = strLat + ", " + strLong
-        location_label = Label(self.root, text=latlong, font=("Arial", 30))
+        location_label = Label(self.root, text=self.city, font=("Arial", 30))
         location_label.grid(row=0, column=1, padx=5, pady=5)
+
 
         # Check Weather
         imageName = self.checkWeatherCat(currWeatherCat)
@@ -98,6 +95,23 @@ class Main:
         tempFull = str(int(temp)) + "\u00B0F"
         temp_label = Label(self.root, text=tempFull, font=("Arial", 25))
         temp_label.grid(row=1, column=1, padx=5, pady=5)
+
+        # Hourly Button
+        hourly_button = Button(self.root, text="Hourly Forecast", width=10, height=2, command=self.hourlyForecast)
+        hourly_button.grid(row=7, column=1, padx=5, pady=5)
+        
+        # Daily Button
+        daily_button = Button(self.root, text="Daily Forecast", width=10, height=2, command=self.dailyForecast)
+        daily_button.grid(row=8, column=1, padx=5, pady=5)
+
+        # Wellness Button
+        wellness_button = Button(self.root, text="Wellness", width=10, height=2, command=self.wellness)
+        wellness_button.grid(row=9, column=1, padx=5, pady=5)
+
+        # Time Label
+        temp_icon_label = tk.Label(self.root, text=self.currentTime, font=("Arial", 15))
+        temp_icon_label.grid(row=10, column=1, padx=5, pady=5)
+        
 
         # Run the Tkinter event loop
         self.root.mainloop()
@@ -159,6 +173,9 @@ class Main:
             hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCode)
             hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
 
+            if isDay and hourlyWeatherText == "Clear":
+                hourlyWeatherText = "Sunny"
+
             # Check Weather
             imageName = self.checkWeatherCat(hourlyWeatherCat)
 
@@ -173,11 +190,19 @@ class Main:
             weather_icon_label.grid(row=count, column=0, padx=5, pady=2)
 
 
-            # Add text labels at (1,1), (1,2), (1,3)
+            # Weather Text
             tk.Label(self.root, text=hourlyWeatherText, font=("Times New Roman", 20)).grid(row=count, column=1, padx=35, pady=2)
+
+            # Temperature
             tk.Label(self.root, text=hourlyTempStr, font=("Times New Roman", 18)).grid(row=count, column=2, padx=25, pady=2)
+
+            # Wind Speed
             tk.Label(self.root, text=hourlyWindSpeedStr, font=("Times New Roman", 16)).grid(row=count, column=3, padx=25, pady=2)
+
+            # Wind Direction
             tk.Label(self.root, text=hourlyWindDirStr, font=("Times New Roman", 16)).grid(row=count, column=4, padx=10, pady=2)
+
+            # Time
             tk.Label(self.root, text=timeStr, font=("Times New Roman", 16)).grid(row=count, column=5, padx=20, pady=2)
 
             count += 1
@@ -198,7 +223,92 @@ class Main:
 
 
     def dailyForecast(self):
-        pass
+
+        weather = Weather()
+        lat, long = weather.SetCurrLoc()
+        dailyDict = weather.ForecastDaily(lat, long)
+        dailyTempMaxArr = dailyDict["DailyTempMax"]
+        dailyTempMinArr = dailyDict["DailyTempMin"]
+        dailyWeatherCodeArr = dailyDict["DailyWeatherCode"]
+        dailyWindSpeedArr = dailyDict["DailyWindSpeed"]
+        isDay = True
+        
+
+        self.root.destroy()
+
+        self.root = tk.Tk()
+
+        # Back Button
+        back_button = Button(self.root, text="Back", width=10, height=2, command=self.mainLoop)
+        back_button.grid(row=0, column=0, padx=5, pady=0)
+
+
+        # Pulls current day in text format i.e "Monday"
+        currDay = self.now.strftime("%A")
+        dayStr = currDay
+
+        currDayIndex = self.days.index(currDay)
+
+        for i in range(7):
+
+            # Set start of days; if the end of the week (saturday) is the current day, it will iterate to the start of the list (sunday)
+            tk.Label(self.root, text=dayStr, font=("Times New Roman", 30)).grid(row=1, column=i, padx=20, pady=50)
+            if currDayIndex < 6:
+                currDayIndex += 1
+                dayStr = self.days[currDayIndex]
+            else:
+                currDayIndex = 0
+                dayStr = self.days[currDayIndex]
+
+            dailyWeatherCode = dailyWeatherCodeArr[i]
+            dailyTempMax = int(dailyTempMaxArr[i])
+            dailyTempMaxStr = str(dailyTempMax) + "\u00B0F"
+            dailyTempMin = int(dailyTempMinArr[i])
+            dailyTempMinStr = str(dailyTempMin) + "\u00B0F"
+            dailyWindSpeed = int(dailyWindSpeedArr[i])
+            dailyWindSpeedStr = str(dailyWindSpeed) + " mph"
+
+            weatherTranslations = WeatherCodeTranslations()
+            dailyWeatherText = weatherTranslations.GetConditions(dailyWeatherCode)
+            dailyWeatherCat = weatherTranslations.GetCategory(dailyWeatherCode, isDay)
+
+            if isDay and dailyWeatherText == "Clear":
+                dailyWeatherText = "Sunny"
+
+
+            # Check Weather
+            imageName = self.checkWeatherCat(dailyWeatherCat)
+
+            # Image
+            image_path = imageName
+            image = Image.open(image_path).convert("RGBA")
+            image = image.resize((100, 100))
+            weather_icon = ImageTk.PhotoImage(image)
+
+            self.weatherIcons.append(weather_icon)  # prevent GC
+
+            # Weather Icon Grid
+            weather_icon_label = tk.Label(self.root, image=weather_icon)
+            weather_icon_label.grid(row=2, column=i, padx=20, pady=15)
+
+            # Weather Text
+            weather_text = Label(self.root, text=dailyWeatherText, font=("Times New Roman", 26))
+            weather_text.grid(row=3, column=i, padx=20, pady=15)
+
+            # Temperature
+            tempMax_label = Label(self.root, text=dailyTempMaxStr, font=("Times New Roman", 23))
+            tempMax_label.grid(row=4, column=i, padx=20, pady=15)
+
+            tempMin_label = Label(self.root, text=dailyTempMinStr, font=("Times New Roman", 19))
+            tempMin_label.grid(row=5, column=i, padx=20, pady=0)
+
+            # Wind Speed
+            tk.Label(self.root, text=dailyWindSpeedStr, font=("Times New Roman", 16)).grid(row=6, column=i, padx=20, pady=10)
+
+        tk.Label(self.root, text="Weather Wellness", font=("Arial", 8)).grid(row=29, column=6, padx=20, pady=10)
+
+        self.root.mainloop()
+
 
 
     def wellness(self):
@@ -254,6 +364,23 @@ class Main:
             return "Images/fogIcon.png"
         else:
             return "Images/errorIcon.png"
+        
+
+    def getNearestCity(self, lat, long):
+        geopy.geocoders.options.default_ssl_context = ssl.create_default_context(cafile=certifi.where())
+
+        geolocator = Nominatim(user_agent="Weather_Wellness_hazweedyk@gmail.com")
+
+        # Reverse geocoding
+        location = geolocator.reverse((lat, long), exactly_one=True)
+
+        # Get city name
+        if location:
+            address = location.raw['address']
+            self.city = address.get('city', '') or address.get("town") or address.get("village") or address.get("hamlet") or address.get("county")
+        else:
+            print("Location not found.")
+        
 
 if __name__ == "__main__":
 
