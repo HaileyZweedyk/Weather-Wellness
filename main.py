@@ -45,8 +45,8 @@ class Main:
         weatherTranslations = WeatherCodeTranslations()
         currWeatherText = weatherTranslations.GetConditions(currWeatherCode)
         currWeatherCat = weatherTranslations.GetCategory(currWeatherCode, isDay)
-        if isDay and dailyWeatherText == "Clear":
-                dailyWeatherText = "Sunny"
+        if isDay and currWeatherText == "Clear":
+                currWeatherText = "Sunny"
 
         # If there is a current self.root, then destroy, if not, ignore
         if self.root != "":
