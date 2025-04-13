@@ -198,74 +198,7 @@ class Main:
 
 
     def dailyForecast(self):
-        weather = Weather()
-        lat, long = weather.SetCurrLoc()
-        dailyDict = weather.ForecastHourly(lat, long)
-        dailyTempArr = dailyDict["DailyTemp"]
-        dailyWeatherCodeArr = dailyDict["DailyWeatherCode"]
-        dailyWindSpeedArr = dailyDict["DailyWindSpeed"]
-        dailyWindDirArr = dailyDict["DailyWindDir"]
-
-        self.root.destroy()
-
-        self.root = tk.Tk()
-
-        i = hour
-        count = 1
-
-        # Back Button
-        back_button = Button(self.root, text="Back", width=10, height=2, command=self.mainLoop)
-        back_button.grid(row=0, column=0, padx=5, pady=5)
-
-        for i in range(i, i + 26):
-
-            hourlyWeatherCode = hourlyWeatherCodeArr[i]
-            hourlyTemp = int(hourlyTempArr[i])
-            hourlyTempStr = str(hourlyTemp) + "\u00B0F"
-            hourlyWindSpeed = int(hourlyWindSpeedArr[i])
-            hourlyWindDir = int(hourlyWindDirArr[i])
-            hourlyWindDirStr = ""
-
-            if 10 < hourlyWindDir and hourlyWindDir > 350:
-                hourlyWindDirStr = "N"
-            elif 10 <= hourlyWindDir <= 80:
-                pass
-
-            # If its between the hours of 8am and 8pm, isDay will be false meaning it's night
-            if 8 <= adjustedTime <= 20:
-                isDay = True
-
-            weatherTranslations = WeatherCodeTranslations()
-            hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCode)
-            hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
-
-            # Check Weather
-            imageName = self.checkWeatherCat(hourlyWeatherCat)
-
-            image = Image.open(imageName).convert("RGBA")
-            img = image.resize((30, 30)) 
-            weather_icon = ImageTk.PhotoImage(img)
-
-            self.weatherIcons.append(weather_icon)  # prevent GC
-
-            # Weather Icon Grid
-            weather_icon_label = tk.Label(self.root, image=weather_icon)
-            weather_icon_label.grid(row=count, column=0, padx=5, pady=2)
-
-
-            # Add text labels at (1,1), (1,2), (1,3)
-            tk.Label(self.root, text=hourlyWeatherText, font=("Arial", 20)).grid(row=count, column=1, padx=35, pady=2)
-            tk.Label(self.root, text=hourlyTempStr, font=("Arial", 18)).grid(row=count, column=2, padx=25, pady=2)
-            tk.Label(self.root, text=hourlyWindSpeed, font=("Arial", 12)).grid(row=count, column=3, padx=25, pady=2)
-            tk.Label(self.root, text=hourlyWindDir, font=("Arial", 12)).grid(row=count, column=4, padx=10, pady=2)
-            tk.Label(self.root, text=timeStr, font=("Arial", 12)).grid(row=count, column=5, padx=20, pady=2)
-
-            count += 1
-
-        tk.Label(self.root, text="Weather Wellness", font=("Arial", 8)).grid(row=27, column=5, padx=20, pady=10)
-
-
-        self.root.mainloop()
+        pass
 
 
     def wellness(self):
