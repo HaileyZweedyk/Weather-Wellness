@@ -14,11 +14,11 @@ class WeatherCodeTranslations:
         if CurrWeatherCode == 0.0:
             conditionText = "Clear"
         elif CurrWeatherCode == 1.0:
-            conditionText = "Clouds Dissapating"
+            conditionText = "Partly Cloudy"
         elif CurrWeatherCode == 2.0:
             conditionText = "Conditions Remain Same"
         elif CurrWeatherCode == 3.0:
-            conditionText = "Clouds Developing"
+            conditionText = "Cloudy"
         elif CurrWeatherCode == 5.0:
             conditionText = "Haze"
         elif CurrWeatherCode == 10.0:
@@ -117,7 +117,10 @@ class WeatherCodeTranslations:
         curr = CurrWeatherCode
 
         if curr == 1:
-            conditionCat = "Partly Cloudy"
+            if isDay:
+                conditionCat = "Partly Cloudy"
+            else:
+                conditionCat = "Partly Cloudy Night"
         elif curr == 3:
             conditionCat = "Cloudy"
         elif curr == 0:
@@ -125,7 +128,7 @@ class WeatherCodeTranslations:
                 conditionCat = "Sunny"
             else:
                 conditionCat = "Clear"
-        elif 20 <= curr <= 21 or curr == 25 or 60 <= curr <= 65 or 80 <= curr <= 82 or 91 <= curr <= 92 or 14 <= curr <= 16:
+        elif 20 <= curr <= 21 or curr == 25 or 60 <= curr <= 65 or 80 <= curr <= 82 or 91 <= curr <= 92 or 14 <= curr <= 16 or curr == 51:
             conditionCat = "Rain"
         elif curr == 5:
             conditionCat = "Haze"
