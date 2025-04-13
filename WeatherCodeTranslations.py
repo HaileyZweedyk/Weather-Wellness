@@ -62,7 +62,7 @@ class WeatherCodeTranslations:
         elif CurrWeatherCode == 84.0:
             conditionText = "Heavy Wintery Mix"
         elif CurrWeatherCode == 85.0:
-            conditionText = "Light Snow"
+            conditionText = "Wintery Mix"
         elif CurrWeatherCode == 86.0:
             conditionText = "Heavy Snow"
         elif CurrWeatherCode == 87.0:
@@ -136,7 +136,7 @@ class WeatherCodeTranslations:
             conditionCat = "Fog"
         elif curr == 13 or curr == 17 or curr == 19 or curr == 29 or 95 <= curr <= 99:
             conditionCat = "Thunderstorm"
-        elif curr == 20 or 22 <= curr <= 23 or curr == 26 or 70 <= curr <= 79 or 85 <= curr <= 88 or 93 <= curr <= 94:
+        elif curr == 20 or 22 <= curr <= 23 or curr == 26 or 70 <= curr <= 79 or 86 <= curr <= 88 or 93 <= curr <= 94:
             conditionCat = "Snow"
         elif curr == 85 or curr == 86:
             conditionCat = "Wintery Mix"

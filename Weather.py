@@ -55,7 +55,7 @@ class Weather:
             "temperature_unit": "fahrenheit",
             "wind_speed_unit": "mph",
             "precipitation_unit": "inch",
-            "timezone": "America/Chicago"
+            "timezone": "auto"
         }
         responses = openmeteo.weather_api(url, params=params)
 
