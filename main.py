@@ -133,6 +133,7 @@ class Main:
         hourlyWindSpeedArr = hourlyDict["HourlyWindSpeed"]
         hourlyWindDirArr = hourlyDict["HourlyWindDir"]
 
+        
         now = datetime.now()
         hour = int(now.hour)
         hourNew = hour
@@ -295,7 +296,8 @@ class Main:
                 dayStr = self.days[currDayIndex]
 
             # Variable Declarations
-            dailyWeatherCode = dailyWeatherCodeArr[i]
+            #dailyWeatherCode = dailyWeatherCodeArr[i]
+            dailyWeatherCode = 13
             dailyTempMax = int(dailyTempMaxArr[i])
             dailyTempMaxStr = str(dailyTempMax) + "\u00B0F"
             dailyTempMin = int(dailyTempMinArr[i])
