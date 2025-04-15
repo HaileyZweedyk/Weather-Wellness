@@ -2,7 +2,7 @@
 
 from WeatherCodeTranslations import WeatherCodeTranslations 
 from Weather import Weather 
-from Wellness import Clothing, Activities, Driving, Mood_Weather
+from Wellness import Wellness
 
 # GUI
 import tkinter as tk
@@ -170,6 +170,7 @@ class Main:
         # Iterators for for loop
         i = hour
         count = 2
+        pastListOfCodes = []
 
         # This loop iterates through the 48 hour list (starting from 0:00 each day) of each hours forecast from the current hour, only displays 24 hours to the next instance of the current hour the next day
         for i in range(i, i + 25):
@@ -183,7 +184,7 @@ class Main:
             hourlyWindDirStr = self.getWindDir(hourlyWindDir)
             hourlyWindSpeedStr = str(hourlyWindSpeed) + " mph"
             isDay = False
-
+            
         
             # If its between the hours of 8am and 8pm, isDay will be false meaning it's night
             if 8 <= hourNew <= 20:
@@ -192,15 +193,22 @@ class Main:
             weatherTranslations = WeatherCodeTranslations()
             hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCode)
             hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
+            pastListOfCodes.append(hourlyWeatherCode)
+            countArr = len(pastListOfCodes) - 1
 
             # Catches the previous hours conditions if the condition is "Conditions remain same"
-            if hourlyWeatherText == "Conditions Remain Same":
-                hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCodeArr[i-1])
-                hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCodeArr[i-1], isDay)
+            if hourlyWeatherText == "Conditions Remain Same" and countArr > 0:
+                hourlyWeatherCodeUpdated = pastListOfCodes[countArr - 1]
+                hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCodeUpdated)
+                hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCodeUpdated, isDay)
+
+                pastListOfCodes[countArr] = hourlyWeatherCodeUpdated
+
 
             # Catches Sunny for day and Clear for night
             if isDay and hourlyWeatherText == "Clear":
                 hourlyWeatherText = "Sunny"
+
 
             # Check Weather
             imageName = self.checkWeatherCat(hourlyWeatherCat)
@@ -296,8 +304,7 @@ class Main:
                 dayStr = self.days[currDayIndex]
 
             # Variable Declarations
-            #dailyWeatherCode = dailyWeatherCodeArr[i]
-            dailyWeatherCode = 13
+            dailyWeatherCode = dailyWeatherCodeArr[i]
             dailyTempMax = int(dailyTempMaxArr[i])
             dailyTempMaxStr = str(dailyTempMax) + "\u00B0F"
             dailyTempMin = int(dailyTempMinArr[i])
@@ -352,12 +359,66 @@ class Main:
 # This shows predicive moods and allows you to journal how you feel
     def wellness(self):
 
+        wellness = Wellness()
+
+        weather = Weather()
+        lat, long = weather.SetCurrLoc()
+        
+        # Variable Declarations
+        curr_weather = weather.ViewCurrWeather(lat, long)
+        temp = curr_weather["CurrTemp"]
+
+        currWeatherCode = curr_weather["CurrWeatherCode"]
+        isDay = curr_weather["CurrIsDay"]
+        weatherTranslations = WeatherCodeTranslations()
+        currWeatherText = weatherTranslations.GetConditions(currWeatherCode)
+        currWeatherCat = weatherTranslations.GetCategory(currWeatherCode, isDay)
+        if isDay and currWeatherText == "Clear":
+                currWeatherText = "Sunny"
+
         # Destroy Current Window
         self.root.destroy()
 
         # Create New Window
         self.root = tk.Tk()
         self.root.title("Wellness")
+
+        # Back Button
+        back_button = Button(self.root, text="Back", width=10, height=2, command=self.mainLoop)
+        back_button.grid(row=0, column=0, padx=5, pady=0)
+
+        # Mood Weather
+        tempMax_label = Label(self.root, text="test", font=("Times New Roman", 23))
+        tempMax_label.grid(row=1, column=0, padx=50, pady=15)
+
+        back_button = Button(self.root, text="Back", width=10, height=2, command=self.mainLoop)
+        back_button.grid(row=0, column=0, padx=5, pady=0)
+
+        # Driving
+        tempMax_label = Label(self.root, text="test", font=("Times New Roman", 23))
+        tempMax_label.grid(row=2, column=0, padx=50, pady=15)
+
+        back_button = Button(self.root, text="Back", width=10, height=2, command=self.mainLoop)
+        back_button.grid(row=0, column=0, padx=5, pady=0)
+
+        # Clothing
+        tempMax_label = Label(self.root, text="test", font=("Times New Roman", 23))
+        tempMax_label.grid(row=3, column=0, padx=50, pady=15)
+
+        tempMax_label = Label(self.root, text="test", font=("Times New Roman", 23))
+        tempMax_label.grid(row=3, column=0, padx=50, pady=15)
+
+        # Activities
+        tempMax_label = Label(self.root, text="test", font=("Times New Roman", 23))
+        tempMax_label.grid(row=4, column=0, padx=50, pady=15)
+
+        tempMax_label = Label(self.root, text="test", font=("Times New Roman", 23))
+        tempMax_label.grid(row=4, column=0, padx=50, pady=15)
+
+        # Journal
+        self.journalView()
+
+        self.root.mainloop()
 
 
     def getWindDir(self, windDir):
@@ -414,7 +475,7 @@ class Main:
     def getNearestCity(self, lat, long):
         geopy.geocoders.options.default_ssl_context = ssl.create_default_context(cafile=certifi.where())
 
-        geolocator = Nominatim(user_agent="Weather_Wellness_hazweedyk@gmail.com")
+        geolocator = Nominatim(user_agent="Weather_Wellness_hazweedyk@gmail.com", timeout=10)
 
         # Reverse geocoding
         location = geolocator.reverse((lat, long), exactly_one=True)
@@ -425,6 +486,54 @@ class Main:
             self.city = address.get('city', '') or address.get("town") or address.get("village") or address.get("hamlet") or address.get("county")
         else:
             print("Location not found.")
+
+
+    def journalView(self):
+        # --- Labels ---
+        tk.Label(self.root, text="Title:").grid(row=6, column=0, sticky="e", padx=5, pady=5)
+        tk.Label(self.root, text="Date (YYYY-MM-DD):").grid(row=7, column=0, sticky="e", padx=5, pady=5)
+        tk.Label(self.root, text="Entry:").grid(row=8, column=0, sticky="ne", padx=5, pady=5)
+
+        # --- Entry Fields ---
+        title_entry = tk.Entry(self.root, width=40)
+        title_entry.grid(row=6, column=1, padx=5, pady=5)
+
+        date_entry = tk.Entry(self.root, width=40)
+        date_entry.insert(0, datetime.now().strftime("%Y-%m-%d"))
+        date_entry.grid(row=7, column=1, padx=5, pady=5)
+
+        entry_text = tk.Text(self.root, width=40, height=10)
+        entry_text.grid(row=8, column=1, padx=5, pady=5)
+
+        # --- Submit Button ---
+        submit_btn = tk.Button(
+            self.root, text="Submit",
+            command=lambda: self.submitEntry(title_entry, date_entry, entry_text, result_label)
+        )
+        submit_btn.grid(row=9, column=0, columnspan=2, pady=10)
+
+        # --- Result Label ---
+        result_label = tk.Label(self.root, text="", fg="green")
+        result_label.grid(row=6, column=1, columnspan=6)
+
+
+    def submitEntry(self, title_entry, date_entry, entry_text, result_label):
+        title = title_entry.get()
+        date = date_entry.get()
+        content = entry_text.get("1.0", tk.END).strip()
+
+        if not date:
+            date = datetime.now().strftime("%Y-%m-%d")
+
+        result_label.config(
+            text=f"Entry saved!\nTitle: {title}\nDate: {date}"
+        )
+
+        # Clear fields
+        title_entry.grid_forget()
+        date_entry.grid_forget()
+        entry_text.grid_forget()
+
 
         
 
