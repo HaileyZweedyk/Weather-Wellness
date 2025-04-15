@@ -29,16 +29,6 @@ class TestWeatherCodeTranslations(unittest.TestCase):
         self.assertEqual(self.weatherTranslations.GetCategory(26, True), "Snow")
         self.assertEqual(self.weatherTranslations.GetCategory(100, False), "Not in Current Database")
 
-class TestWeather(unittest.TestCase):
-    def test_forecast_daily(self):
-        pass
-    def test_forecast_hourly(self):
-        pass
-    def test_view_curr_weather(self):
-        pass
-    def test_set_curr_location(self):
-        pass
-
 class TestWellness(unittest.TestCase):
     def test_suggest_CLothing_negative(self):
         self.assertEqual(self.wellness.suggest_Wellness(-1),"Temperature is in the negatives today. Avoid going outside, but if necessary, dress in heavy layers and make sure your ears, nose, and hands are covered at all times.")            
