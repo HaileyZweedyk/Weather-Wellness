@@ -170,6 +170,7 @@ class Main:
         # Iterators for for loop
         i = hour
         count = 2
+        pastListOfCodes = []
 
         # This loop iterates through the 48 hour list (starting from 0:00 each day) of each hours forecast from the current hour, only displays 24 hours to the next instance of the current hour the next day
         for i in range(i, i + 25):
@@ -183,8 +184,7 @@ class Main:
             hourlyWindDirStr = self.getWindDir(hourlyWindDir)
             hourlyWindSpeedStr = str(hourlyWindSpeed) + " mph"
             isDay = False
-            pastListOfCodes = []
-
+            
         
             # If its between the hours of 8am and 8pm, isDay will be false meaning it's night
             if 8 <= hourNew <= 20:
@@ -193,20 +193,22 @@ class Main:
             weatherTranslations = WeatherCodeTranslations()
             hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCode)
             hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
-            hourlyWeatherCodeUpdated = hourlyWeatherCode
+            pastListOfCodes.append(hourlyWeatherCode)
+            countArr = len(pastListOfCodes) - 1
 
             # Catches the previous hours conditions if the condition is "Conditions remain same"
-            if hourlyWeatherText == "Conditions Remain Same":
-                hourlyWeatherText = weatherTranslations.GetConditions(pastListOfCodes[i-1])
-                hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCodeArr[i-1], isDay)
-                hourlyWeatherCodeUpdated = hourlyWeatherCodeArr[i-1]
+            if hourlyWeatherText == "Conditions Remain Same" and countArr > 0:
+                hourlyWeatherCodeUpdated = pastListOfCodes[countArr - 1]
+                hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCodeUpdated)
+                hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCodeUpdated, isDay)
+
+                pastListOfCodes[countArr] = hourlyWeatherCodeUpdated
 
 
             # Catches Sunny for day and Clear for night
             if isDay and hourlyWeatherText == "Clear":
                 hourlyWeatherText = "Sunny"
 
-            pastListOfCodes.append(hourlyWeatherCodeUpdated)
 
             # Check Weather
             imageName = self.checkWeatherCat(hourlyWeatherCat)
