@@ -1,5 +1,8 @@
 
-class Clothing:
+class Wellness:
+
+    def __init__(self):
+        self.journal = {}
 
 
     def suggest_clothing(self, temp):
@@ -18,7 +21,7 @@ class Clothing:
         else:
             print("It's very hot outside! Wear lightweight flowy clothing, a hat and sandals or tennis shoes.")
 
-class Activities:
+
     def suggest_activities(self, weather_condition):
         if weather_condition == "sunny":
             print("Hooray it's sunny outside! Walking, hiking, biking, going to the beach, or having a picnic in the park are great to do on sunny days like this one.")
@@ -37,7 +40,7 @@ class Activities:
         else:
             print("Weather condition not recognized. Check the forecast for more information.")
 
-class Driving:
+
     def driving_techniques(self, weather_condition):
         if weather_condition == "snow":
             print("Tips for driving in the snow: ")
@@ -75,7 +78,7 @@ class Driving:
         else:
             print("Weather condition not recognized. Please enter a valid condition (snow, ice, wind, rain, or thunderstorm).")
 
-class Mood_Weather:
+
 # we need to resonsider this probs need input statments
     def mood_weather(self, weather_condition):
         if weather_condition == "sunny":
@@ -91,32 +94,8 @@ class Mood_Weather:
         else:
             print("Weather condition not recognized. Please enter a valid condition (sunny, cloudy, snowy, rain, or thunderstorm).")
 
-class Mood_Forcast:
-
-    def mood_forecast(self):
-        pass
-        # Generate forecast from Weather.py
-        # print(f"{day}: mood_weather(weather_condition)", end="")
     
 
-class Journal:
     
-    def journal(self):
-
-        journal = {}
-
-        while True:
-            print("\n--- Journal Entry ---")
-            title = input("Enter the title (or type 'quit' to stop): ")
-            if title.lower() == 'quit':
-                break
-
-            entry = input("Write your journal entry:\n")
-            journal[title] = entry
-            print(f"Entry saved!")
-
-        print("\nYour Journal:")
-        for title, entry in journal.items():
-            print(f"\nTitle: {title}\nEntry: {entry}")
 
     
