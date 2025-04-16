@@ -9,7 +9,6 @@ class WeatherCodeTranslations:
     def GetConditions(self, CurrWeatherCode):
 
         conditionText = ""
-
             
         if CurrWeatherCode == 0.0:
             conditionText = "Clear"
