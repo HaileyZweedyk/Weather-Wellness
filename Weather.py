@@ -4,8 +4,6 @@ import requests
 # Tabulate for table formats
 from tabulate import tabulate
 
-# GUI API
-
 # Weather API
 import openmeteo_requests
 
