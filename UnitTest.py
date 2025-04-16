@@ -7,7 +7,7 @@ class TestWeatherCodeTranslations(unittest.TestCase):
 
     def __init__(self):
         self.wellness = Wellness()
-        self.weatherTranslations = WeatherCodeTranslations()
+        self.weatherCodeTranslations = WeatherCodeTranslations()
 
 import unittest
 from Weather import Weather
@@ -116,7 +116,6 @@ class TestWeatherCodeTranslations(unittest.TestCase):
         self.assertEqual(self.weatherCodeTranslations.GetCategory(94, False), "Snow")
         self.assertEqual(self.weatherCodeTranslations.GetCategory(85, False), "Wintery Mix")
         self.assertEqual(self.weatherCodeTranslations.GetCategory(100, False), "Not in Current Database")
-
 
 class TestWellness(unittest.TestCase):
     def test_suggest_CLothing_negative(self):
