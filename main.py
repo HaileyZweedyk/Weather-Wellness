@@ -193,7 +193,9 @@ class Main:
         pastListOfCodes = []
 
         # This loop iterates through the 48 hour list (starting from 0:00 each day) of each hours forecast from the current hour, only displays 24 hours to the next instance of the current hour the next day
-        for i in range(i, i + 25):
+        for i in range(i - 1, i + 25):
+
+            
 
             # Individual Hour Variable Declarations
             hourlyWeatherCode = hourlyWeatherCodeArr[i]
@@ -210,68 +212,75 @@ class Main:
             if 8 <= hourNew <= 20:
                 isDay = True
 
-            weatherTranslations = WeatherCodeTranslations()
-            hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCode)
-            hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
-            pastListOfCodes.append(hourlyWeatherCode)
-            countArr = len(pastListOfCodes) - 1
 
-            # Catches the previous hours conditions if the condition is "Conditions remain same"
-            if hourlyWeatherText == "Conditions Remain Same" and countArr > 0:
-                hourlyWeatherCodeUpdated = pastListOfCodes[countArr - 1]
-                hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCodeUpdated)
-                hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCodeUpdated, isDay)
-
-                pastListOfCodes[countArr] = hourlyWeatherCodeUpdated
-
-
-            # Catches Sunny for day and Clear for night
-            if isDay and hourlyWeatherText == "Clear":
-                hourlyWeatherText = "Sunny"
-
-
-            # Check Weather
-            imageName = self.checkWeatherCat(hourlyWeatherCat)
-
-            image = Image.open(imageName).convert("RGBA")
-            img = image.resize((30, 30)) 
-            weather_icon = ImageTk.PhotoImage(img)
-
-            self.weatherIcons.append(weather_icon)  # prevent GC
-
-            # Weather Icon Grid
-            weather_icon_label = tk.Label(self.root, image=weather_icon)
-            weather_icon_label.grid(row=count, column=0, padx=5, pady=2)
-
-
-            # Weather Text
-            tk.Label(self.root, text=hourlyWeatherText, font=("Times New Roman", 20)).grid(row=count, column=1, padx=35, pady=2)
-
-            # Temperature
-            tk.Label(self.root, text=hourlyTempStr, font=("Times New Roman", 18)).grid(row=count, column=2, padx=25, pady=2)
-
-            # Wind Speed
-            tk.Label(self.root, text=hourlyWindSpeedStr, font=("Times New Roman", 16)).grid(row=count, column=3, padx=25, pady=2)
-
-            # Wind Direction
-            tk.Label(self.root, text=hourlyWindDirStr, font=("Times New Roman", 16)).grid(row=count, column=4, padx=10, pady=2)
-
-            # Time
-            tk.Label(self.root, text=timeStr, font=("Times New Roman", 16)).grid(row=count, column=5, padx=20, pady=2)
-
-            # Iterates the row number
-            count += 1
-
-            # If its currently 23:00 (11pm) the hour will be reset to 0:00 (12am)
-            if hourNew < 23:
-                hourNew += 1
-                timeStr = str(hourNew) + ":00"
+            # Initiates the code before the first shown element
+            if i == i - 1:
+                pastListOfCodes.append(hourlyWeatherCode)
+            
             else:
-                hourNew = 0
-                timeStr = str(hourNew) + ":00"
 
-        # Project name label on bottom
-        tk.Label(self.root, text="Weather Wellness", font=("Arial", 8)).grid(row=28, column=5, padx=20, pady=10)
+                weatherTranslations = WeatherCodeTranslations()
+                hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCode)
+                hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
+                pastListOfCodes.append(hourlyWeatherCode)
+                countArr = len(pastListOfCodes) - 1
+
+                # Catches the previous hours conditions if the condition is "Conditions remain same"
+                if hourlyWeatherText == "Conditions Remain Same" and countArr > 0:
+                    hourlyWeatherCodeUpdated = pastListOfCodes[countArr - 1]
+                    hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCodeUpdated)
+                    hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCodeUpdated, isDay)
+
+                    pastListOfCodes[countArr] = hourlyWeatherCodeUpdated
+
+
+                # Catches Sunny for day and Clear for night
+                if isDay and hourlyWeatherText == "Clear":
+                    hourlyWeatherText = "Sunny"
+
+
+                # Check Weather
+                imageName = self.checkWeatherCat(hourlyWeatherCat)
+
+                image = Image.open(imageName).convert("RGBA")
+                img = image.resize((30, 30)) 
+                weather_icon = ImageTk.PhotoImage(img)
+
+                self.weatherIcons.append(weather_icon)  # prevent GC
+
+                # Weather Icon Grid
+                weather_icon_label = tk.Label(self.root, image=weather_icon)
+                weather_icon_label.grid(row=count, column=0, padx=5, pady=2)
+
+
+                # Weather Text
+                tk.Label(self.root, text=hourlyWeatherText, font=("Times New Roman", 20)).grid(row=count, column=1, padx=35, pady=2)
+
+                # Temperature
+                tk.Label(self.root, text=hourlyTempStr, font=("Times New Roman", 18)).grid(row=count, column=2, padx=25, pady=2)
+
+                # Wind Speed
+                tk.Label(self.root, text=hourlyWindSpeedStr, font=("Times New Roman", 16)).grid(row=count, column=3, padx=25, pady=2)
+
+                # Wind Direction
+                tk.Label(self.root, text=hourlyWindDirStr, font=("Times New Roman", 16)).grid(row=count, column=4, padx=10, pady=2)
+
+                # Time
+                tk.Label(self.root, text=timeStr, font=("Times New Roman", 16)).grid(row=count, column=5, padx=20, pady=2)
+
+                # Iterates the row number
+                count += 1
+
+                # If its currently 23:00 (11pm) the hour will be reset to 0:00 (12am)
+                if hourNew < 23:
+                    hourNew += 1
+                    timeStr = str(hourNew) + ":00"
+                else:
+                    hourNew = 0
+                    timeStr = str(hourNew) + ":00"
+
+            # Project name label on bottom
+            tk.Label(self.root, text="Weather Wellness", font=("Arial", 8)).grid(row=28, column=5, padx=20, pady=10)
 
 
         self.root.mainloop()
@@ -407,7 +416,6 @@ class Main:
         # Create New Window
         self.root = tk.Tk()
         self.root.title("Wellness")
-        self.root.geometry("400x700")
 
         # Back Button
         back_button = Button(self.root, text="Back", width=10, height=2, command=self.mainLoop)
@@ -417,28 +425,28 @@ class Main:
         mood_label = Label(self.root, text="Potential Mood: ", font=("Times New Roman", 23))
         mood_label.grid(row=1, column=0, padx=50, pady=15)
 
-        moodText_label = Label(self.root, text=str(moodForecast), width=10, height=2, font=("Times New Roman", 18))
+        moodText_label = Label(self.root, text=moodForecast, font=("Times New Roman", 18), wraplength=300)
         moodText_label.grid(row=1, column=1, padx=50, pady=15)
 
         # Driving
         driving_label = Label(self.root, text="Driving Tips: ", font=("Times New Roman", 23))
         driving_label.grid(row=2, column=0, padx=50, pady=15)
 
-        drivingText_label = Label(self.root, text=str(driving), width=10, height=2, font=("Times New Roman", 18))
+        drivingText_label = Label(self.root, text=str(driving), font=("Times New Roman", 18), wraplength=300)
         drivingText_label.grid(row=2, column=1, padx=50, pady=15)
 
         # Clothing
         clothing_label = Label(self.root, text="Suggested Clothing: ", font=("Times New Roman", 23))
         clothing_label.grid(row=3, column=0, padx=50, pady=15)
 
-        clothingText_label = Label(self.root, text=str(clothing), font=("Times New Roman", 18))
+        clothingText_label = Label(self.root, text=clothing, font=("Times New Roman", 18), wraplength=300)
         clothingText_label.grid(row=3, column=1, padx=50, pady=15)
 
         # Activities
         activities_label = Label(self.root, text="Activities: ", font=("Times New Roman", 23))
         activities_label.grid(row=4, column=0, padx=50, pady=15)
 
-        activitiesText_label = Label(self.root, text=str(activities), font=("Times New Roman", 18))
+        activitiesText_label = Label(self.root, text=activities, font=("Times New Roman", 18), wraplength=300)
         activitiesText_label.grid(row=4, column=1, padx=50, pady=15)
 
         # Journal

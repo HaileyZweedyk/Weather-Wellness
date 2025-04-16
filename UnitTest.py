@@ -49,7 +49,7 @@ class TestWeatherCodeTranslations(unittest.TestCase):
         self.assertEqual(self.weatherCodeTranslations.GetConditions(55.0), "Rain")
         self.assertEqual(self.weatherCodeTranslations.GetConditions(59.0), "Rain")
         self.assertEqual(self.weatherCodeTranslations.GetConditions(60.0), "Rain")
-        self.assertEqual(self.weatherCodeTranslations.GetConditions(65.0), "Freezing Rain")
+        self.assertEqual(self.weatherCodeTranslations.GetConditions(65.0), "Rain")
         self.assertEqual(self.weatherCodeTranslations.GetConditions(66.0), "Freezing Rain")
         self.assertEqual(self.weatherCodeTranslations.GetConditions(67.0), "Freezing Rain")
         self.assertEqual(self.weatherCodeTranslations.GetConditions(68.0), "Rain")
@@ -211,7 +211,7 @@ class TestWellness(unittest.TestCase):
     def test_driving_techniques_snow(self):
         out = (
         "- Slow down and increase your following distance.\n- Avoid sudden steering or braking.\n- Drive in the tire tracks of other vehicles."
-    )
+        )
         self.assertEqual(self.wellness.driving_techniques("Snow"), out)
 
     def test_driving_techniques_ice(self):

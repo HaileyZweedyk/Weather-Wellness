@@ -127,7 +127,7 @@ class WeatherCodeTranslations:
                 conditionCat = "Sunny"
             else:
                 conditionCat = "Clear"
-        elif 20 <= curr <= 21 or curr == 25 or 60 <= curr <= 65 or 80 <= curr <= 82 or 91 <= curr <= 92 or 14 <= curr <= 16 or curr == 51 or curr == 53:
+        elif 20 <= curr <= 21 or curr == 25 or 60 <= curr <= 65 or curr == 68 or 80 <= curr <= 82 or 91 <= curr <= 92 or 14 <= curr <= 16 or curr == 51 or curr == 53:
             conditionCat = "Rain"
         elif curr == 5:
             conditionCat = "Haze"
