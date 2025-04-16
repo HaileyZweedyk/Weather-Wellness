@@ -526,14 +526,14 @@ class Main:
         tk.Label(self.root, text="Entry:").grid(row=8, column=0, sticky="ne", padx=5, pady=5)
 
         # Entry Fields
-        title_entry = tk.Entry(self.root, width=40)
+        title_entry = tk.Entry(self.root, width=30)
         title_entry.grid(row=6, column=1, padx=5, pady=5)
 
-        date_entry = tk.Entry(self.root, width=40)
+        date_entry = tk.Entry(self.root, width=30)
         date_entry.insert(0, datetime.now().strftime("%Y-%m-%d"))
         date_entry.grid(row=7, column=1, padx=5, pady=5)
 
-        entry_text = tk.Text(self.root, width=40, height=10)
+        entry_text = tk.Text(self.root, width=30, height=10)
         entry_text.grid(row=8, column=1, padx=5, pady=5)
 
         # Submit Button
@@ -574,10 +574,8 @@ class Main:
         for key in reversed(list(self.journal.keys())):
             entry = self.journal[key]
             textJournal = key + "\n" + entry
-            tk.Label(self.root, text=textJournal, justify="left", wraplength=300, width=50, height=7).grid(row=rowi, column=1, padx=5, pady=5)
+            tk.Label(self.root, text=textJournal, justify="left", wraplength=300, width=50, height=7, anchor="w").grid(row=rowi, column=1, padx=5, pady=5)
             rowi += 1
-
-
        
 
 if __name__ == "__main__":
