@@ -66,7 +66,7 @@ class Wellness:
 
 # we need to resonsider this probs need input statments
     def mood_weather(self, weather_condition):
-        if weather_condition == "Sunny" and weather_condition == "Partly Cloudy":
+        if weather_condition == "Sunny" or weather_condition == "Partly Cloudy":
             return "The sun is shining out! Take advantage of this beautiful sunshine and soak up some vitamin D (not too much though, wear your sunscreen)."
         elif weather_condition == "Clear":
             return "The moon is out and the sky is dark! You might start to feel tired, so prioritize getting some sleep, but also enjoy some of the feelings of nighttime activities."
