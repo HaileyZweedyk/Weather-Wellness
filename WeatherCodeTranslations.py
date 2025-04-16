@@ -15,9 +15,9 @@ class WeatherCodeTranslations:
         elif CurrWeatherCode == 1.0:
             conditionText = "Partly Cloudy"
         elif CurrWeatherCode == 2.0:
-            conditionText = "Conditions Remain Same"
+            conditionText = "Mostly Cloudy"
         elif CurrWeatherCode == 3.0:
-            conditionText = "Clouds Developing"
+            conditionText = "Cloudy"
         elif CurrWeatherCode == 5.0:
             conditionText = "Haze"
         elif CurrWeatherCode == 10.0:
@@ -29,7 +29,7 @@ class WeatherCodeTranslations:
         elif CurrWeatherCode == 13.0:
             conditionText = "Lightning"
         elif CurrWeatherCode == 19.0:
-            conditionText = "Funnel Cloud Formation: Take Shelter"
+            conditionText = "Funnel Cloud Formation"
         elif CurrWeatherCode == 20.0:
             conditionText = "Rain"
         elif CurrWeatherCode == 21.0:
@@ -81,13 +81,13 @@ class WeatherCodeTranslations:
         elif CurrWeatherCode == 94.0:
             conditionText = "Heavy Snow"
         elif CurrWeatherCode == 95.0:
-            conditionText = "Thunderstorm and Hail"
+            conditionText = "Thunderstorm"
         elif CurrWeatherCode == 96.0:
-            conditionText = "Heavy Thunderstorm and Hail"
+            conditionText = "Heavy Thunderstorm"
         elif CurrWeatherCode == 97.0:
             conditionText = "Thunderstorm"
         elif CurrWeatherCode == 99.0:
-            conditionText = "Heavy Thunderstorm and Hail"
+            conditionText = "hunderstorm"
 
         
         elif 36.0 <= CurrWeatherCode <= 39.0:
@@ -102,6 +102,8 @@ class WeatherCodeTranslations:
             conditionText = "Freezing Rain"
         elif 70.0 <= CurrWeatherCode <= 75.0:
             conditionText = "Snow"
+        elif CurrWeatherCode == 101:
+            conditionText = "Mostly Cloudy"
         else:
             conditionText = "Not in Current Database"
 
@@ -122,6 +124,8 @@ class WeatherCodeTranslations:
                 conditionCat = "Partly Cloudy Night"
         elif curr == 3:
             conditionCat = "Cloudy"
+        elif curr == 2:
+            conditionCat = "Mostly Cloudy"
         elif curr == 0:
             if isDay:
                 conditionCat = "Sunny"

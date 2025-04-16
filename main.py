@@ -55,23 +55,6 @@ class Main:
 
         weather = Weather()
         lat, long = weather.SetCurrLoc()
-
-        # Variable Declaration for Hourly Data to Fix Conditions Remain Same
-        hourlyDict = weather.ForecastHourly(lat, long)
-        hourlyWeatherCodeArr = hourlyDict["HourlyWeatherCode"]
-        now = datetime.now()
-        hour = int(now.hour)
-
-        hourlyWeatherCode = ""
-
-        while True:
-            hourlyWeatherCode = hourlyWeatherCodeArr[hour - 1]
-
-            if hourlyWeatherCode != 2 and hourlyWeatherCode != 3:
-                break
-            else:
-                hour -= 1
-
         
         # Variable Declarations
         curr_weather = weather.ViewCurrWeather(lat, long)
@@ -82,23 +65,9 @@ class Main:
         weatherTranslations = WeatherCodeTranslations()
         currWeatherText = weatherTranslations.GetConditions(currWeatherCode)
         currWeatherCat = weatherTranslations.GetCategory(currWeatherCode, isDay)
-        hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCode)
-        hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
-
-        if currWeatherText == "Conditions Remain Same":
-            currWeatherText = hourlyWeatherText
-            currWeatherCat = hourlyWeatherCat
-
-        if currWeatherCode == 3:
-            if hourlyWeatherCode == 0:
-                currWeatherText = "Partly Cloudy"
-                currWeatherCat = "Partly Cloudy"
-            else:
-                currWeatherText = "Cloudy"
-                currWeatherCat = "Cloudy"
         
         if isDay and currWeatherText == "Clear":
-                currWeatherText = "Sunny"
+            currWeatherText = "Sunny"
 
         # If there is a current self.root, then destroy, if not, ignore
         if self.root != "":
@@ -184,7 +153,6 @@ class Main:
         hourlyWeatherCodeArr = hourlyDict["HourlyWeatherCode"]
         hourlyWindSpeedArr = hourlyDict["HourlyWindSpeed"]
         hourlyWindDirArr = hourlyDict["HourlyWindDir"]
-
         
         now = datetime.now()
         hour = int(now.hour)
@@ -222,10 +190,9 @@ class Main:
         # Iterators for for loop
         i = hour
         count = 2
-        pastListOfCodes = []
 
         # This loop iterates through the 48 hour list (starting from 0:00 each day) of each hours forecast from the current hour, only displays 24 hours to the next instance of the current hour the next day
-        for i in range(i - 1, i + 25):
+        for i in range(i, i + 25):
 
             
 
@@ -243,97 +210,68 @@ class Main:
             # If its between the hours of 8am and 8pm, isDay will be false meaning it's night
             if 8 <= hourNew <= 20:
                 isDay = True
-
-
-            # Initiates the code before the first shown element
-            if i == i - 1:
-                pastListOfCodes.append(hourlyWeatherCode)
             
-            else:
+         
 
-                weatherTranslations = WeatherCodeTranslations()
-                hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCode)
-                hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
-                pastListOfCodes.append(hourlyWeatherCode)
-                countArr = len(pastListOfCodes) - 1
-                testCountArr = countArr
+            weatherTranslations = WeatherCodeTranslations()
+            hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCode)
+            hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
 
-                hourlyWeatherCodePast = ""
 
-                # Catches the previous hours conditions if the condition is "Conditions remain same"
+            hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCode)
+            hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
 
                 
-                if hourlyWeatherCode == 3 and countArr > 0:
-                    while True:
-                        hourlyWeatherCodePast = pastListOfCodes[testCountArr - 1]
-
-                        if hourlyWeatherCodePast != 3:
-                            break
-                        else:
-                            testCountArr -= 1
-
-                    if hourlyWeatherCodePast == 0:
-                        hourlyWeatherCode == 1
-                    else:
-                        hourlyWeatherCode == 3
-
-                print("Hourly Weather: " + str(hourlyWeatherCode))
-                print("Past Hour: " + str(hourlyWeatherCodePast))
-                hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCode)
-                hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
-
-                    
-
-                pastListOfCodes[countArr] = hourlyWeatherCode
 
 
-                # Catches Sunny for day and Clear for night
-                if isDay and hourlyWeatherText == "Clear":
-                    hourlyWeatherText = "Sunny"
+
+            # Catches Sunny for day and Clear for night
+            if isDay and hourlyWeatherText == "Clear":
+                hourlyWeatherText = "Sunny"
 
 
-                # Check Weather
-                imageName = self.checkWeatherCat(hourlyWeatherCat)
+            # Check Weather
+            imageName = self.checkWeatherCat(hourlyWeatherCat)
 
-                image = Image.open(imageName).convert("RGBA")
-                img = image.resize((30, 30)) 
-                weather_icon = ImageTk.PhotoImage(img)
+            image = Image.open(imageName).convert("RGBA")
+            img = image.resize((30, 30)) 
+            weather_icon = ImageTk.PhotoImage(img)
 
-                self.weatherIcons.append(weather_icon)  # prevent GC
+            self.weatherIcons.append(weather_icon)  # prevent GC
 
-                # Weather Icon Grid
-                weather_icon_label = tk.Label(self.root, image=weather_icon)
-                weather_icon_label.grid(row=count, column=0, padx=5, pady=2)
+            # Weather Icon Grid
+            weather_icon_label = tk.Label(self.root, image=weather_icon)
+            weather_icon_label.grid(row=count, column=0, padx=5, pady=2)
 
 
-                # Weather Text
-                tk.Label(self.root, text=hourlyWeatherText, font=("Times New Roman", 20)).grid(row=count, column=1, padx=35, pady=2)
+            # Weather Text
+            tk.Label(self.root, text=hourlyWeatherText, font=("Times New Roman", 20)).grid(row=count, column=1, padx=35, pady=2)
 
-                # Temperature
-                tk.Label(self.root, text=hourlyTempStr, font=("Times New Roman", 18)).grid(row=count, column=2, padx=25, pady=2)
+            # Temperature
+            tk.Label(self.root, text=hourlyTempStr, font=("Times New Roman", 18)).grid(row=count, column=2, padx=25, pady=2)
 
-                # Wind Speed
-                tk.Label(self.root, text=hourlyWindSpeedStr, font=("Times New Roman", 16)).grid(row=count, column=3, padx=25, pady=2)
+            # Wind Speed
+            tk.Label(self.root, text=hourlyWindSpeedStr, font=("Times New Roman", 16)).grid(row=count, column=3, padx=25, pady=2)
 
-                # Wind Direction
-                tk.Label(self.root, text=hourlyWindDirStr, font=("Times New Roman", 16)).grid(row=count, column=4, padx=10, pady=2)
+            # Wind Direction
+            tk.Label(self.root, text=hourlyWindDirStr, font=("Times New Roman", 16)).grid(row=count, column=4, padx=10, pady=2)
 
-                # Time
-                tk.Label(self.root, text=timeStr, font=("Times New Roman", 16)).grid(row=count, column=5, padx=20, pady=2)
+            # Time
+            tk.Label(self.root, text=timeStr, font=("Times New Roman", 16)).grid(row=count, column=5, padx=20, pady=2)
 
-                # Iterates the row number
-                count += 1
+            # Iterates the row number
+            count += 1
 
-                # If its currently 23:00 (11pm) the hour will be reset to 0:00 (12am)
-                if hourNew < 23:
-                    hourNew += 1
-                    timeStr = str(hourNew) + ":00"
-                else:
-                    hourNew = 0
-                    timeStr = str(hourNew) + ":00"
+            # If its currently 23:00 (11pm) the hour will be reset to 0:00 (12am)
+            if hourNew < 23:
+                hourNew += 1
+                timeStr = str(hourNew) + ":00"
+            else:
+                hourNew = 0
+                timeStr = str(hourNew) + ":00"
 
-            # Project name label on bottom
-            tk.Label(self.root, text="Weather Wellness", font=("Arial", 8)).grid(row=28, column=5, padx=20, pady=10)
+        # Project name label on bottom
+        tk.Label(self.root, text="Weather Wellness", font=("Arial", 8)).grid(row=28, column=5, padx=20, pady=10)
 
 
         self.root.mainloop()
@@ -558,6 +496,8 @@ class Main:
             return "Images/winteryMixIcon.png"
         elif weatherCat == "Fog":
             return "Images/fogIcon.png"
+        elif weatherCat == "Mostly Cloudy":
+            return "Images/mostlyCloudyIcon.png"
         else:
             return "Images/errorIcon.png"
         
