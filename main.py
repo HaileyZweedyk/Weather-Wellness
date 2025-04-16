@@ -545,10 +545,7 @@ class Main:
 
         self.printJournal()
 
-        
-
-
-
+    
     def submitEntry(self, title_entry, date_entry, entry_entry):
         title = title_entry.get()
         date = date_entry.get()

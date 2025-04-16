@@ -1,12 +1,7 @@
 import unittest
-from WeatherCodeTranslations import WeatherCodeTranslations 
-from Weather import Weather 
 from Wellness import Wellness
-import unittest
-from Weather import Weather
 from WeatherCodeTranslations import WeatherCodeTranslations
-
-import unittest
+from main import Main
 
 class TestWeatherCodeTranslations(unittest.TestCase):
 
@@ -20,7 +15,7 @@ class TestWeatherCodeTranslations(unittest.TestCase):
         self.assertEqual(self.weatherCodeTranslations.GetConditions(1.0), "Partly Cloudy")
 
     def test_conditions_2_0(self):
-        self.assertEqual(self.weatherCodeTranslations.GetConditions(2.0), "Mos")
+        self.assertEqual(self.weatherCodeTranslations.GetConditions(2.0), "Mostly Cloudy")
 
     def test_conditions_3_0(self):
         self.assertEqual(self.weatherCodeTranslations.GetConditions(3.0), "Cloudy")
@@ -41,7 +36,7 @@ class TestWeatherCodeTranslations(unittest.TestCase):
         self.assertEqual(self.weatherCodeTranslations.GetConditions(13.0), "Lightning")
 
     def test_conditions_19_0(self):
-        self.assertEqual(self.weatherCodeTranslations.GetConditions(19.0), "Funnel Cloud Formation: Take Shelter")
+        self.assertEqual(self.weatherCodeTranslations.GetConditions(19.0), "Funnel Cloud Formation")
 
     def test_conditions_20_0(self):
         self.assertEqual(self.weatherCodeTranslations.GetConditions(20.0), "Rain")
@@ -170,16 +165,16 @@ class TestWeatherCodeTranslations(unittest.TestCase):
         self.assertEqual(self.weatherCodeTranslations.GetConditions(94.0), "Heavy Snow")
 
     def test_conditions_95_0(self):
-        self.assertEqual(self.weatherCodeTranslations.GetConditions(95.0), "Thunderstorm and Hail")
+        self.assertEqual(self.weatherCodeTranslations.GetConditions(95.0), "Thunderstorm")
 
     def test_conditions_96_0(self):
-        self.assertEqual(self.weatherCodeTranslations.GetConditions(96.0), "Heavy Thunderstorm and Hail")
+        self.assertEqual(self.weatherCodeTranslations.GetConditions(96.0), "Heavy Thunderstorm")
 
     def test_conditions_97_0(self):
         self.assertEqual(self.weatherCodeTranslations.GetConditions(97.0), "Thunderstorm")
 
     def test_conditions_99_0(self):
-        self.assertEqual(self.weatherCodeTranslations.GetConditions(99.0), "Heavy Thunderstorm and Hail")
+        self.assertEqual(self.weatherCodeTranslations.GetConditions(99.0), "hunderstorm")
 
     def test_conditions_6_0(self):
         self.assertEqual(self.weatherCodeTranslations.GetConditions(6.0), "Not in Current Database")
@@ -187,11 +182,17 @@ class TestWeatherCodeTranslations(unittest.TestCase):
     def test_conditions_100_0(self):
         self.assertEqual(self.weatherCodeTranslations.GetConditions(100.0), "Not in Current Database")
 
+    def test_conditions_101_0(self):
+        self.assertEqual(self.weatherCodeTranslations.GetConditions(101.0), "Mostly Cloudy")
+
     def test_code_1_day(self):
         self.assertEqual(self.weatherCodeTranslations.GetCategory(1, True), "Partly Cloudy")
 
     def test_code_1_night(self):
         self.assertEqual(self.weatherCodeTranslations.GetCategory(1, False), "Partly Cloudy Night")
+
+    def test_code_2_day(self):
+        self.assertEqual(self.weatherCodeTranslations.GetCategory(2, True), "Mostly Cloudy")
 
     def test_code_3(self):
         self.assertEqual(self.weatherCodeTranslations.GetCategory(3, True), "Cloudy")
@@ -360,18 +361,6 @@ class TestWellness(unittest.TestCase):
     def test_suggest_activities_unknown(self):
         self.assertEqual(self.wellness.suggest_activities("Unknown"), "Weather condition not recognized. Check the forecast for more information.")
     
-    def test_driving_techniques_snow(self):
-        self.assertEqual(self.wellness.driving_techniques("snow"), "Tips for driving in the snow: ")
-
-    def test_driving_techniques_rain(self):
-        self.assertEqual(self.wellness.driving_techniques("rain"), "Tips for driving in the rain: ")
-
-    def test_driving_techniques_thunderstorm(self):
-        self.assertEqual(self.wellness.driving_techniques("thunderstorm"), "Tips for driving in a thunderstorm: ")
-
-    def test_driving_techniques_clear(self):
-        self.assertEqual(self.wellness.driving_techniques("clear"), "Driving Conditions Safe.")
-    
     def test_mood_weather_sunny(self):
         self.assertEqual(self.wellness.mood_weather("Sunny"), "The sun is shining out! Take advantage of this beautiful sunshine and soak up some vitamin D (not too much though, wear your sunscreen).")
     
@@ -392,7 +381,114 @@ class TestWellness(unittest.TestCase):
     
     def test_mood_weather_unknown(self):
         self.assertEqual(self.wellness.mood_weather("Unknown"), "Weather condition not recognized. Please enter a valid condition (sunny, cloudy, snowy, rain, or thunderstorm).")
+    
+    def test_driving_techniques_snow(self):
+        weather_condition = "snow"
+        expected_output = ("Tips for driving in the snow:\n"
+                           "- Slow down and reduce your speed.\n"
+                           "- Increase your following distance.\n"
+                           "- Drive in the tire tracks of other vehicles if possible.\n"
+                           "- Avoid sudden steering or braking to prevent loss of control.\n"
+                           "- Keep headlights on for better visibility.")
+        result = self.wellness.driving_techniques(weather_condition)
+        self.assertEqual(result, expected_output)
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_driving_techniques_rain(self):
+        weather_condition = "rain"
+        expected_output = ("Tips for driving in the rain:\n"
+                           "- Slow down and reduce speed to avoid slipping.\n"
+                           "- Increase your following distance to give yourself more stopping time.\n"
+                           "- Use your headlights and windshield wipers for better visibility.\n"
+                           "- Avoid driving through large puddles or flooded areas.\n"
+                           "- Turn off cruise control to maintain full control of your vehicle.")
+        result = self.wellness.driving_techniques(weather_condition)
+        self.assertEqual(result, expected_output)
 
+    def test_driving_techniques_thunderstorm(self):
+        weather_condition = "thunderstorm"
+        expected_output = ("Tips for driving in a thunderstorm:\n"
+                           "- Use your headlights and windshield wipers to maximize visibility.\n"
+                           "- Avoid driving through flooded areas to prevent hydroplaning.\n"
+                           "- Be aware of sudden gusts of wind and potential debris on the road.\n"
+                           "-If conditions are severe pull over in a covered area to let the storm pass.")
+        result = self.wellness.driving_techniques(weather_condition)
+        self.assertEqual(result, expected_output)
+
+    def test_driving_techniques_safe_conditions(self):
+        weather_condition = "clear"
+        expected_output = "Driving Conditions Safe. Practice defensive driving techniques."
+        result = self.wellness.driving_techniques(weather_condition)
+        self.assertEqual(result, expected_output)
+
+import unittest
+
+class TestWeatherFunctions(unittest.TestCase):
+
+    def setUp(self):
+        self.main = Main()
+    
+    def test_get_wind_dir_n(self):
+        self.assertEqual(self.main.getWindDir(360), "N")
+
+    def test_get_wind_dir_ne(self):
+        self.assertEqual(self.main.getWindDir(45), "NE")
+
+    def test_get_wind_dir_e(self):
+        self.assertEqual(self.main.getWindDir(90), "E")
+
+    def test_get_wind_dir_se(self):
+        self.assertEqual(self.main.getWindDir(135), "SE")
+
+    def test_get_wind_dir_s(self):
+        self.assertEqual(self.main.getWindDir(180), "S")
+
+    def test_get_wind_dir_sw(self):
+        self.assertEqual(self.main.getWindDir(225), "SW")
+
+    def test_get_wind_dir_w(self):
+        self.assertEqual(self.main.getWindDir(270), "W")
+
+    def test_get_wind_dir_nw(self):
+        self.assertEqual(self.main.getWindDir(315), "NW")
+
+    def test_get_wind_dir_invalid(self):
+        self.assertEqual(self.main.getWindDir(400), "N")
+
+    def test_check_weather_cat_sunny(self):
+        self.assertEqual(self.main.checkWeatherCat("Sunny"), "Images/sunIcon.png")
+
+    def test_check_weather_cat_clear(self):
+        self.assertEqual(self.main.checkWeatherCat("Clear"), "Images/moonIcon.png")
+
+    def test_check_weather_cat_cloudy(self):
+        self.assertEqual(self.main.checkWeatherCat("Cloudy"), "Images/cloudyIcon.png")
+
+    def test_check_weather_cat_partly_cloudy(self):
+        self.assertEqual(self.main.checkWeatherCat("Partly Cloudy"), "Images/partlyCloudyIcon.png")
+
+    def test_check_weather_cat_partly_cloudy_night(self):
+        self.assertEqual(self.main.checkWeatherCat("Partly Cloudy Night"), "Images/partlyCloudyNightIcon.png")
+
+    def test_check_weather_cat_rain(self):
+        self.assertEqual(self.main.checkWeatherCat("Rain"), "Images/rainIcon.png")
+
+    def test_check_weather_cat_thunderstorm(self):
+        self.assertEqual(self.main.checkWeatherCat("Thunderstorm"), "Images/thunderstormIcon.png")
+
+    def test_check_weather_cat_snow(self):
+        self.assertEqual(self.main.checkWeatherCat("Snow"), "Images/snowIcon.png")
+
+    def test_check_weather_cat_haze(self):
+        self.assertEqual(self.main.checkWeatherCat("Haze"), "Images/hazeIcon.png")
+
+    def test_check_weather_cat_wintery_mix(self):
+        self.assertEqual(self.main.checkWeatherCat("Wintery Mix"), "Images/winteryMixIcon.png")
+
+    def test_check_weather_cat_fog(self):
+        self.assertEqual(self.main.checkWeatherCat("Fog"), "Images/fogIcon.png")
+
+    def test_check_weather_cat_mostly_cloudy(self):
+        self.assertEqual(self.main.checkWeatherCat("Mostly Cloudy"), "Images/mostlyCloudyIcon.png")
+
+    def test_check_weather_cat_invalid(self):
+        self.assertEqual(self.main.checkWeatherCat("NotAWeatherCat"), "Images/errorIcon.png")
