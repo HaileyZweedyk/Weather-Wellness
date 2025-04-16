@@ -55,6 +55,23 @@ class Main:
 
         weather = Weather()
         lat, long = weather.SetCurrLoc()
+
+        # Variable Declaration for Hourly Data to Fix Conditions Remain Same
+        hourlyDict = weather.ForecastHourly(lat, long)
+        hourlyWeatherCodeArr = hourlyDict["HourlyWeatherCode"]
+        now = datetime.now()
+        hour = int(now.hour)
+
+        hourlyWeatherCode = ""
+
+        while True:
+            hourlyWeatherCode = hourlyWeatherCodeArr[hour - 1]
+
+            if hourlyWeatherCode != 2 and hourlyWeatherCode != 3:
+                break
+            else:
+                hour -= 1
+
         
         # Variable Declarations
         curr_weather = weather.ViewCurrWeather(lat, long)
@@ -65,6 +82,21 @@ class Main:
         weatherTranslations = WeatherCodeTranslations()
         currWeatherText = weatherTranslations.GetConditions(currWeatherCode)
         currWeatherCat = weatherTranslations.GetCategory(currWeatherCode, isDay)
+        hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCode)
+        hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
+
+        if currWeatherText == "Conditions Remain Same":
+            currWeatherText = hourlyWeatherText
+            currWeatherCat = hourlyWeatherCat
+
+        if currWeatherCode == 3:
+            if hourlyWeatherCode == 0:
+                currWeatherText = "Partly Cloudy"
+                currWeatherCat = "Partly Cloudy"
+            else:
+                currWeatherText = "Cloudy"
+                currWeatherCat = "Cloudy"
+        
         if isDay and currWeatherText == "Clear":
                 currWeatherText = "Sunny"
 
@@ -224,14 +256,35 @@ class Main:
                 hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
                 pastListOfCodes.append(hourlyWeatherCode)
                 countArr = len(pastListOfCodes) - 1
+                testCountArr = countArr
+
+                hourlyWeatherCodePast = ""
 
                 # Catches the previous hours conditions if the condition is "Conditions remain same"
-                if hourlyWeatherText == "Conditions Remain Same" and countArr > 0:
-                    hourlyWeatherCodeUpdated = pastListOfCodes[countArr - 1]
-                    hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCodeUpdated)
-                    hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCodeUpdated, isDay)
 
-                    pastListOfCodes[countArr] = hourlyWeatherCodeUpdated
+                
+                if hourlyWeatherCode == 3 and countArr > 0:
+                    while True:
+                        hourlyWeatherCodePast = pastListOfCodes[testCountArr - 1]
+
+                        if hourlyWeatherCodePast != 3:
+                            break
+                        else:
+                            testCountArr -= 1
+
+                    if hourlyWeatherCodePast == 0:
+                        hourlyWeatherCode == 1
+                    else:
+                        hourlyWeatherCode == 3
+
+                print("Hourly Weather: " + str(hourlyWeatherCode))
+                print("Past Hour: " + str(hourlyWeatherCodePast))
+                hourlyWeatherText = weatherTranslations.GetConditions(hourlyWeatherCode)
+                hourlyWeatherCat = weatherTranslations.GetCategory(hourlyWeatherCode, isDay)
+
+                    
+
+                pastListOfCodes[countArr] = hourlyWeatherCode
 
 
                 # Catches Sunny for day and Clear for night

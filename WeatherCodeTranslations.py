@@ -17,7 +17,7 @@ class WeatherCodeTranslations:
         elif CurrWeatherCode == 2.0:
             conditionText = "Conditions Remain Same"
         elif CurrWeatherCode == 3.0:
-            conditionText = "Cloudy"
+            conditionText = "Clouds Developing"
         elif CurrWeatherCode == 5.0:
             conditionText = "Haze"
         elif CurrWeatherCode == 10.0:
