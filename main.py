@@ -340,7 +340,7 @@ class Main:
 
 
             # Check Weather
-            imageName = self.checkWeatherCat(dailyWeatherCat)
+            imageName = self.checkWeatherCat(dailyWeatherCat)\
 
             # Image
             image_path = imageName
