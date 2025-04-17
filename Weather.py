@@ -52,6 +52,7 @@ class Weather:
             "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "precipitation_probability_max", "wind_speed_10m_max"],
             "temperature_unit": "fahrenheit",
             "wind_speed_unit": "mph",
+            "models" : "best_match",
             "precipitation_unit": "inch",
             "timezone": "auto"
         }
@@ -108,6 +109,7 @@ class Weather:
             "longitude": long,
             "hourly": ["temperature_2m", "apparent_temperature", "precipitation_probability", "weather_code", "wind_speed_10m", "wind_direction_10m", "wind_gusts_10m"],
             "temperature_unit": "fahrenheit",
+            "models" : "best_match",
             "wind_speed_unit": "mph",
             "precipitation_unit": "inch",
             "timezone": "auto",
@@ -172,6 +174,7 @@ class Weather:
             "current": ["temperature_2m", "apparent_temperature", "is_day", "weather_code", "wind_speed_10m", "wind_direction_10m"],
             "temperature_unit": "fahrenheit",
             "wind_speed_unit": "mph",
+            "models" : "best_match",
             "precipitation_unit": "inch",
             "timezone": "auto"
         }
