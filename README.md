@@ -2,10 +2,10 @@ This was a group project for CIS350. We created a simple Python weather app usin
 
 Python APIs Used
 ---------------------------------
-Open-Meteo
-GeoPy
-tkinter
-datetime
+Open-Meteo,
+GeoPy,
+tkinter,
+datetime,
 PIL
 
 
