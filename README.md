@@ -1,3 +1,6 @@
+Overview
+--------------------------------
+
 This was a group project for CIS350. We created a simple Python weather app using the Open-Meteo Python API and incorporated wellness and recreation tips depending on the current forecast with custom-made weather condition graphics. The idea was to create an app that helped users understand the correlation between weather and how they might feel that day; like how rainy, dreary 
 
 Python APIs Used
