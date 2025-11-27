@@ -16,14 +16,14 @@ Application Screenshots
 ---------------------------------
 
 - ![Main Page](WorkingScreenshots/WeatherWellnessHomePageScreenshot.png)Main Page: Shows the current weather from the Open-Meteo Python API at the users current location using GeoPy API and gives options to see hourly and daily forecast as well as access the wellness journal.
-
-  
+#
+#  
 - ![Daily Weather Page](WorkingScreenshots/WeatherWellnessDailyWeatherConditions-CurrentLocation.png)Daily Weather Page: Shows the next 7 days of forecasted weather conditions for the users current location from the Open-Meteo Python API.
-
-  
+#
+#  
 - ![Hourly Weather Page](WorkingScreenshots/WeatherWellnessHourlyForecast.png)Hourly Weather Page: Shows the current hour and next 24 hours of weather conditions from the Open-Meteo Python API at the users current location.
-
-  
+#
+#  
 - ![Wellness Page](WorkingScreenshots/WeatherWellness-WellnessJournal.png)Wellness Page: Shows tips based on current weather conditions for potential mood, driving, suggested clothing, and activities and allows you to journal how you're currently feeling and add it to your list of previous journal entries.
 
   
